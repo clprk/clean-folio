@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
 @import 'tailwindcss';
 
 /* FONT DECLARATIONS */
@@ -10,61 +11,54 @@
 }
 
 @theme {
-  --color-dark-green: #4e4f48;
-  --color-beige: #f2eee4;
-  --color-light-beige: #fcf9f2;
-  --color-dark-beige: #e4e0d4;
-  --color-green: #aeb29d;
-  --color-light-green: #eaedde;
   --color-dark: #171717;
-}
+  --color-gray: #737472;
+  --color-light: #cfd3c9;
+  --color-white: #fff;
+  --color-accent: #69b500;
 
-:root {
-  --font-helvetica: 'Helvetica', sans-serif;
-  --font-roboto-mono: 'Roboto Mono', monospace;
+  /* --font-sans: 'Helvetica', sans-serif;
+  --font-mono: 'Roboto Mono', monospace; */
+  --font-sans: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 }
 
 /* GLOBAL STYLES */
 
 body {
-  font-family: var(--font-helvetica);
-}
-
-code,
-pre {
-  font-family: var(--font-roboto-mono);
+  @apply text-gray font-sans;
 }
 
 h1 {
-  @apply text-2xl md:text-5xl;
+  @apply text-dark text-2xl md:text-5xl;
 }
 h2 {
-  @apply text-xl uppercase md:text-3xl;
+  @apply text-dark text-xl uppercase md:text-3xl;
 }
 h3 {
-  @apply mb-4 text-lg uppercase;
-  font-family: var(--font-roboto-mono);
+  @apply mb-3 text-lg leading-none uppercase;
 }
 h4 {
-  @apply mb-4 uppercase;
-  font-family: var(--font-roboto-mono);
-  /* font-style: italic; */
+  @apply mb-4 font-mono uppercase;
 }
 h5 {
-  font-family: var(--font-roboto-mono);
+  @apply font-mono;
 }
+
 a {
-  font-family: var(--font-roboto-mono);
+  @apply font-mono;
 }
 a:hover {
-  /* @apply text-dark-green underline; */
+  @apply text-accent;
 }
 button {
-  font-family: var(--font-roboto-mono);
-  text-transform: uppercase;
+  @apply font-mono uppercase;
 }
 img {
-  @apply relative z-10 border border-gray-300;
+  @apply relative z-10;
+}
+figcaption {
+  @apply text-gray mt-3 text-center font-mono text-xs tracking-widest uppercase;
 }
 
 /* CUSTOM CLASSES */
@@ -72,13 +66,17 @@ img {
   @apply mx-auto px-2 md:px-4;
 }
 .container-custom-small {
-  @apply mx-auto max-w-4xl px-3;
+  @apply mx-auto w-[50rem] px-4;
 }
 
-/* .nav-container {
-  @apply max-w-7xl mx-auto px-3 md:px-20 py-6 flex items-center justify-between;
-} */
-
 .small-text {
-  @apply text-sm text-gray-500 uppercase;
+  @apply text-sm uppercase;
+}
+
+.tiny-text {
+  @apply font-mono text-[0.7rem] tracking-widest uppercase;
+}
+
+.img-container {
+  @apply border-light overflow-hidden border;
 }
