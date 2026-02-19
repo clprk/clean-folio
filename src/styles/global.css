@@ -1,75 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 /* FONT DECLARATIONS */
 @font-face {
-    font-family: 'Helvetica';
-    src: local('Helvetica');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Helvetica";
+  src: local("Helvetica");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @theme {
-    --color-dark-green: #4E4F48;
-    --color-beige: #F2EEE4;
-    --color-light-beige: #FCF9F2;
-    --color-dark-beige: #E4E0D4;
-    --color-green: #AEB29D;
-    --color-light-green: #EAEDDE;
-    --color-dark: #2B2B28;
-  }
+  --color-dark-green: #4e4f48;
+  --color-beige: #f2eee4;
+  --color-light-beige: #fcf9f2;
+  --color-dark-beige: #e4e0d4;
+  --color-green: #aeb29d;
+  --color-light-green: #eaedde;
+  --color-dark: #2b2b28;
+}
+
+:root {
+  --font-helvetica: "Helvetica", sans-serif;
+  --font-roboto-mono: "Roboto Mono", monospace;
+}
 
 /* GLOBAL STYLES */
-:root {
-    --font-helvetica: 'Helvetica', sans-serif;
-    --font-roboto-mono: 'Roboto Mono', monospace;
-}
-
 
 body {
-    font-family: var(--font-helvetica);
+  font-family: var(--font-helvetica);
 }
 
-code, pre {
-    font-family: var(--font-roboto-mono);
+code,
+pre {
+  font-family: var(--font-roboto-mono);
 }
 
 h1 {
-    @apply text-2xl uppercase md:text-5xl;
+  @apply text-2xl md:text-5xl;
 }
 h2 {
-    @apply text-xl  uppercase md:text-3xl;
+  @apply text-xl  uppercase md:text-3xl;
 }
 h3 {
-    @apply text-xl uppercase mb-6;
-    font-family: var(--font-roboto-mono);
+  @apply text-lg uppercase mb-6;
+  font-family: var(--font-roboto-mono);
 }
 h4 {
-    @apply uppercase mb-4;
-    font-family: var(--font-roboto-mono);
-    font-style: italic;
+  @apply uppercase mb-4;
+  font-family: var(--font-roboto-mono);
+  /* font-style: italic; */
 }
 h5 {
-    font-family: var(--font-roboto-mono);
+  font-family: var(--font-roboto-mono);
 }
 a {
-    font-family: var(--font-roboto-mono);
-} 
+  font-family: var(--font-roboto-mono);
+}
 a:hover {
-    @apply text-dark-green underline;
+  /* @apply text-dark-green underline; */
 }
 button {
-    font-family: var(--font-roboto-mono);
-    text-transform: uppercase;
+  font-family: var(--font-roboto-mono);
+  text-transform: uppercase;
 }
 img {
-    @apply z-10 relative;
-  }
+  @apply z-10 relative;
+}
 
 /* CUSTOM CLASSES */
 .container-custom {
-    @apply max-w-7xl mx-auto px-3 md:px-20;
+  @apply mx-auto px-2 md:px-6;
 }
 .container-custom-small {
-    @apply max-w-5xl mx-auto px-3 md:px-12;
+  @apply max-w-5xl mx-auto px-3 md:px-12;
+}
+
+/* .nav-container {
+  @apply max-w-7xl mx-auto px-3 md:px-20 py-6 flex items-center justify-between;
+} */
+
+.small-text {
+  @apply text-gray-500 text-sm uppercase;
 }
