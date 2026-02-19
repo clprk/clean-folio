@@ -42,7 +42,7 @@ h2 {
   @apply text-xl  uppercase md:text-3xl;
 }
 h3 {
-  @apply text-lg uppercase mb-6;
+  @apply text-lg uppercase mb-4;
   font-family: var(--font-roboto-mono);
 }
 h4 {
@@ -81,4 +81,8 @@ img {
 
 .small-text {
   @apply text-gray-500 text-sm uppercase;
+}
+
+.outlined {
+  @apply border border-gray-300;
 }
