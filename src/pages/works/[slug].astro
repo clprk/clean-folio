@@ -98,7 +98,7 @@ const workImageUrl = work.image
       if (block._type === 'imageBlock') {
         const imageUrl = block.image ? urlFor(block.image)?.width(800).url() : null;
         return (
-          <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-30'}>
+          <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-10'}>
             <div class="container-custom-small">
               {block.heading && (
                 <h3 class="pb-4">{block.heading}</h3>
@@ -124,7 +124,7 @@ const workImageUrl = work.image
       // Text Blocks
       else if (block._type === 'textBlock') {
         return (
-          <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-30'}>
+          <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-10'}>
             <div class="container-custom-small flex gap-16">
               {block.heading && (
                 <h3 class="w-2/7">{block.heading}</h3>

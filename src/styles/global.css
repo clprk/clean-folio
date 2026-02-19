@@ -56,7 +56,7 @@ a {
     font-family: var(--font-roboto-mono);
 } 
 a:hover {
-    @apply text-dark-green;
+    @apply text-dark-green underline;
 }
 button {
     font-family: var(--font-roboto-mono);
