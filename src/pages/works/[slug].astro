@@ -1,11 +1,10 @@
 ---
 import Layout from '../../layouts/Base.astro';
-import type { SanityDocument } from "@sanity/client";
-import { sanityClient } from "sanity:client";
-import imageUrlBuilder from "@sanity/image-url";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import type { SanityDocument } from '@sanity/client';
+import { sanityClient } from 'sanity:client';
+import imageUrlBuilder from '@sanity/image-url';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import PortableTextRenderer from '../../components/PortableTextRenderer.astro';
-
 
 const WORK_QUERY = `*[_type == "work" && slug.current == $slug][0]{
   ...,
@@ -36,165 +35,164 @@ const WORK_QUERY = `*[_type == "work" && slug.current == $slug][0]{
     }
   }
 }`;
+
 const work = await sanityClient.fetch<SanityDocument>(WORK_QUERY, Astro.params);
 
-export async function getStaticPaths(): Promise<Array<{ params: { slug: string } }>> {
+export async function getStaticPaths() {
   const SLUGS_QUERY = `*[_type == "work" && defined(slug.current)]{
     "params": {"slug": slug.current}
   }`;
-  return await sanityClient.fetch(SLUGS_QUERY, Astro.params);
+  return await sanityClient.fetch(SLUGS_QUERY);
 }
 
 const { projectId, dataset } = sanityClient.config();
 const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? imageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
-const workImageUrl = work.image
-  ? urlFor(work.image)?.width(550).height(310).url()
-  : null;
+  projectId && dataset ? imageUrlBuilder({ projectId, dataset }).image(source) : null;
+const workImageUrl = work.image ? urlFor(work.image)?.width(550).height(310).url() : null;
 ---
 
 <Layout>
-  <!-- Hero Section -->
-<section class="bg-dark-beige border-b border-dark">
-  
-  <div class="container-custom min-h-screen flex flex-col gap-8 pt-24">
-    <!-- Overline -->
-    <div class="flex flex-col md:flex-row justify-between py-4 border-t border-dark gap-2">
-      <h3>{work.title}</h3> 
-      <h4>
-        {work.tags && work.tags.length > 0 
-          ? work.tags.join(' ✦ ')
-          : ''
-        }
-      </h4>
+  <!-- hero -->
+  <section class="grid h-[46rem] grid-rows-2 gap-6 border-b border-gray-300">
+    <!-- top -->
+    <div class="h-full overflow-hidden px-4">
+      <img
+        src={workImageUrl || ''}
+        alt={work.image?.alt || ''}
+        class="h-full w-full object-cover"
+      />
     </div>
-    <!-- Title -->
-    <h1>{work.headline}</h1>
-    <!-- Work Summary -->
-     <div class="flex flex-col md:flex-row py-10 gap-10">
-      <div class="md:w-3/5">
-        <h3>Summary</h3> 
-        <p>{Array.isArray(work.summary) && <PortableTextRenderer value={work.summary}/>}</p>
+    <!-- bottom -->
+    <div class="container-custom grid grid-cols-2 gap-6">
+      <!-- left -->
+      <div>
+        <h4 class="small-text">
+          {work.tags && work.tags.length > 0 ? work.tags.join(' ✦ ') : ''}
+        </h4>
+        <h1>{work.headline}</h1>
       </div>
-      <div class="md:w-1/5">
-        <h3>My Role</h3> 
-        <p>{work.role}</p>
-      </div>
-      <div class="md:w-1/5">
-        <h3>Timeline</h3> 
-        <p>{work.timeline}</p>
-      </div>
-     </div>
-      
-  </div>
-</section>
-<section>
-  <!-- Body Content -->
-  <div class="flex flex-col gap-20">
-    {work.body && work.body.map((block: any, index: number) => {
-      // Image Blocks
-      if (block._type === 'imageBlock') {
-        const imageUrl = block.image ? urlFor(block.image)?.width(800).url() : null;
-        return (
-          <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-10'}>
-            <div class="container-custom-small">
-              {block.heading && (
-                <h3 class="pb-4">{block.heading}</h3>
-              )}
-              {imageUrl && (
-                <figure>
-                  <img 
-                    src={imageUrl} 
-                    alt={block.image?.alt || ''} 
-                    class="w-full"
-                  />
-                  {block.caption && (
-                    <h5 class="text-center mt-4 italic">
-                      {block.caption}
-                    </h5>
-                  )}
-                </figure>
-              )}
+      <!-- right -->
+      <div class="grid grid-rows-2 text-gray-500">
+        <!-- details -->
+        <div class="grid grid-rows-2">
+          <div class="grid grid-rows-3 text-sm">
+            <div class="grid grid-cols-2">
+              <p class="small-text">Company</p>
+              <p>{work.title}</p>
+            </div>
+            <div class="grid grid-cols-2">
+              <p class="small-text">Role</p>
+              <p>{work.role}</p>
+            </div>
+            <div class="grid grid-cols-2">
+              <p class="small-text">Timeline</p>
+              <p>{work.timeline}</p>
             </div>
           </div>
-        );
-      } 
-      // Text Blocks
-      else if (block._type === 'textBlock') {
-        return (
-          <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-10'}>
-            <div class="container-custom-small flex gap-16">
-              {block.heading && (
-                <h3 class="w-2/7">{block.heading}</h3>
-              )}
-              {block.content && (
-                <div class="w-5/7">
-                  <PortableTextRenderer value={block.content} />
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      }
-      // Grid Blocks
-      else if (block._type === 'gridBlock') {
-        const gridClasses = {
-          '2': 'grid-cols-1 md:grid-cols-2',
-          '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-          '4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
-        };
-        
-        return (
-          <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-30'}>
-            <div class="container-custom-small">
-              {block.heading && (
-                <h3 class="pb-4">{block.heading}</h3>
-              )}
-              <div class={`grid ${gridClasses[block.columns as keyof typeof gridClasses]} gap-6`}>
-                {block.items && block.items.map((item: any, itemIndex: number) => (
-                  <div class="grid-item">
-                    {item.type === 'image' && item.image && (
-                      <div>
-                        {item.subtitle && (
-                          <h4 class="mb-4">{item.subtitle}</h4>
-                        )}
-                        <img 
-                          src={urlFor(item.image)?.width(400).url() || ''} 
-                          alt={item.image.alt || ''} 
-                          class="w-full h-auto"
-                        />
-                        {item.caption && (
-                          <h5 class="text-center mt-2 italic">{item.caption}</h5>
-                        )}
-                      </div>
+          <div></div>
+        </div>
+
+        <!-- summary -->
+        <div class="">
+          <p>
+            {Array.isArray(work.summary) && <PortableTextRenderer value={work.summary} />}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- body -->
+  <section>
+    <div class="flex flex-col gap-20">
+      {
+        work.body &&
+          work.body.map((block: any, index: number) => {
+            // Image Blocks
+            if (block._type === 'imageBlock') {
+              const imageUrl = block.image ? urlFor(block.image)?.width(800).url() : null;
+              return (
+                <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-10'}>
+                  <div class="container-custom-small">
+                    {block.heading && <h3 class="pb-4">{block.heading}</h3>}
+                    {imageUrl && (
+                      <figure>
+                        <img src={imageUrl} alt={block.image?.alt || ''} class="w-full" />
+                        {block.caption && <h5 class="mt-4 text-center italic">{block.caption}</h5>}
+                      </figure>
                     )}
-                    {item.type === 'text' && item.content && (
-                      <div>
-                        {item.subtitle && (
-                          <h4 class="mb-4">{item.subtitle}</h4>
-                        )}
-                        <div class="prose prose-sm max-w-none">
-                          <PortableTextRenderer value={item.content} />
-                        </div>
-                        {item.caption && (
-                          <h5 class="text-center mt-4 italic">{item.caption}</h5>
-                        )}
+                  </div>
+                </div>
+              );
+            }
+            // Text Blocks
+            else if (block._type === 'textBlock') {
+              return (
+                <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-10'}>
+                  <div class="container-custom-small flex gap-16">
+                    {block.heading && <h3 class="w-2/7">{block.heading}</h3>}
+                    {block.content && (
+                      <div class="w-5/7">
+                        <PortableTextRenderer value={block.content} />
                       </div>
                     )}
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-      }
-      return null;
-    })}
-  </div>
+                </div>
+              );
+            }
+            // Grid Blocks
+            else if (block._type === 'gridBlock') {
+              const gridClasses = {
+                '2': 'grid-cols-1 md:grid-cols-2',
+                '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+                '4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+              };
 
-</section>
+              return (
+                <div class={block.dark ? 'bg-dark text-light-beige py-30' : 'py-30'}>
+                  <div class="container-custom-small">
+                    {block.heading && <h3 class="pb-4">{block.heading}</h3>}
+                    <div
+                      class={`grid ${gridClasses[block.columns as keyof typeof gridClasses]} gap-6`}
+                    >
+                      {block.items &&
+                        block.items.map((item: any, itemIndex: number) => (
+                          <div class="grid-item">
+                            {item.type === 'image' && item.image && (
+                              <div>
+                                {item.subtitle && <h4 class="mb-4">{item.subtitle}</h4>}
+                                <img
+                                  src={urlFor(item.image)?.width(400).url() || ''}
+                                  alt={item.image.alt || ''}
+                                  class="h-auto w-full"
+                                />
+                                {item.caption && (
+                                  <h5 class="mt-2 text-center italic">{item.caption}</h5>
+                                )}
+                              </div>
+                            )}
+                            {item.type === 'text' && item.content && (
+                              <div>
+                                {item.subtitle && <h4 class="mb-4">{item.subtitle}</h4>}
+                                <div class="prose prose-sm max-w-none">
+                                  <PortableTextRenderer value={item.content} />
+                                </div>
+                                {item.caption && (
+                                  <h5 class="mt-4 text-center italic">{item.caption}</h5>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })
+      }
+    </div>
+  </section>
   <div class="container-custom-small py-20">
     {Array.isArray(work.body) && <PortableTextRenderer value={work.body} />}
   </div>

@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap");
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
 
 /* FONT DECLARATIONS */
 @font-face {
-  font-family: "Helvetica";
-  src: local("Helvetica");
+  font-family: 'Helvetica';
+  src: local('Helvetica');
   font-weight: normal;
   font-style: normal;
 }
@@ -16,12 +16,12 @@
   --color-dark-beige: #e4e0d4;
   --color-green: #aeb29d;
   --color-light-green: #eaedde;
-  --color-dark: #2b2b28;
+  --color-dark: #171717;
 }
 
 :root {
-  --font-helvetica: "Helvetica", sans-serif;
-  --font-roboto-mono: "Roboto Mono", monospace;
+  --font-helvetica: 'Helvetica', sans-serif;
+  --font-roboto-mono: 'Roboto Mono', monospace;
 }
 
 /* GLOBAL STYLES */
@@ -39,14 +39,14 @@ h1 {
   @apply text-2xl md:text-5xl;
 }
 h2 {
-  @apply text-xl  uppercase md:text-3xl;
+  @apply text-xl uppercase md:text-3xl;
 }
 h3 {
-  @apply text-lg uppercase mb-4;
+  @apply mb-4 text-lg uppercase;
   font-family: var(--font-roboto-mono);
 }
 h4 {
-  @apply uppercase mb-4;
+  @apply mb-4 uppercase;
   font-family: var(--font-roboto-mono);
   /* font-style: italic; */
 }
@@ -64,15 +64,15 @@ button {
   text-transform: uppercase;
 }
 img {
-  @apply z-10 relative;
+  @apply relative z-10 border border-gray-300;
 }
 
 /* CUSTOM CLASSES */
 .container-custom {
-  @apply mx-auto px-2 md:px-6;
+  @apply mx-auto px-2 md:px-4;
 }
 .container-custom-small {
-  @apply max-w-5xl mx-auto px-3 md:px-12;
+  @apply mx-auto max-w-4xl px-3;
 }
 
 /* .nav-container {
@@ -80,9 +80,5 @@ img {
 } */
 
 .small-text {
-  @apply text-gray-500 text-sm uppercase;
-}
-
-.outlined {
-  @apply border border-gray-300;
+  @apply text-sm text-gray-500 uppercase;
 }
