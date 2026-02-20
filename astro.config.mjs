@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
 
-//import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
@@ -22,6 +22,5 @@ export default defineConfig({
     react(),
   ],
 
-  // adapter: vercel()
-  output: 'static',
+  adapter: vercel(),
 });
