@@ -26,24 +26,30 @@
 /* GLOBAL STYLES */
 
 body {
-  @apply text-gray font-sans;
+  @apply text-gray font-sans leading-relaxed;
 }
 
 h1 {
   @apply text-dark text-2xl md:text-5xl;
 }
 h2 {
-  @apply text-dark text-xl uppercase md:text-3xl;
+  @apply text-dark mb-3 text-xl uppercase md:text-3xl;
 }
 h3 {
-  @apply mb-3 text-lg leading-none uppercase;
+  @apply mb-3 text-lg uppercase;
 }
 h4 {
-  @apply mb-4 font-mono uppercase;
+  @apply mb-3 font-mono uppercase;
 }
 h5 {
   @apply font-mono;
 }
+/* p {
+  @apply leading-relaxed;
+}
+li {
+  @apply leading-relaxed;
+} */
 
 a {
   @apply font-mono;
@@ -58,7 +64,7 @@ img {
   @apply relative z-10;
 }
 figcaption {
-  @apply text-gray mt-3 text-center font-mono text-xs tracking-widest uppercase;
+  @apply text-gray mt-3 font-mono text-[0.7rem] tracking-widest uppercase;
 }
 
 /* CUSTOM CLASSES */
@@ -66,7 +72,7 @@ figcaption {
   @apply mx-auto px-2 md:px-4;
 }
 .container-custom-small {
-  @apply mx-auto w-[50rem] px-4;
+  @apply mx-auto w-4xl px-4;
 }
 
 .small-text {

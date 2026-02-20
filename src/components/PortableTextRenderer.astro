@@ -1,31 +1,31 @@
 ---
-import { toHTML } from '@portabletext/to-html'
-import imageUrlBuilder from '@sanity/image-url'
-import { sanityClient } from "sanity:client";
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
-import type { PortableTextHtmlComponents } from '@portabletext/to-html'
+import { toHTML } from '@portabletext/to-html';
+import imageUrlBuilder from '@sanity/image-url';
+import { sanityClient } from 'sanity:client';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import type { PortableTextHtmlComponents } from '@portabletext/to-html';
 
-const builder = imageUrlBuilder(sanityClient)
+const builder = imageUrlBuilder(sanityClient);
 
 function urlFor(source: SanityImageSource) {
-  return builder.image(source)
+  return builder.image(source);
 }
 
 interface Props {
-  value: any[]
+  value: any[];
 }
 
-const { value } = Astro.props
+const { value } = Astro.props;
 
 const components: Partial<PortableTextHtmlComponents> = {
   types: {
     image: ({ value }: { value: any }) => {
-      const imageUrl = urlFor(value).width(800).url()
+      const imageUrl = urlFor(value).width(800).url();
       const imageSrcSet = `
         ${urlFor(value).width(400).url()} 400w,
         ${urlFor(value).width(800).url()} 800w,
         ${urlFor(value).width(1200).url()} 1200w
-      `
+      `;
       return `
         <img 
           src="${imageUrl}"
@@ -34,8 +34,8 @@ const components: Partial<PortableTextHtmlComponents> = {
           alt="${value.alt || ''}"
           class="w-full h-auto my-6 rounded-lg border border-dark"
         />
-      `
-    }
+      `;
+    },
   },
   block: {
     h1: ({ children }) => `<h3>${children}</h3>`,
@@ -43,34 +43,35 @@ const components: Partial<PortableTextHtmlComponents> = {
     h3: ({ children }) => `<h5>${children}</h5>`,
     normal: ({ children, value }) => {
       // Check if this is an empty block (line break)
-      const isEmpty = value.children?.every((child: any) => 
-        !child.text || child.text.trim() === ''
-      )
-      
+      const isEmpty = value.children?.every(
+        (child: any) => !child.text || child.text.trim() === '',
+      );
+
       if (isEmpty) {
-        return '<br>' // Convert empty blocks to line breaks
+        return '<br>'; // Convert empty blocks to line breaks
       }
-      
-      return `<p class="mb-4">${children}</p>`
+
+      return `<p class="mb-4">${children}</p>`;
     },
   },
   list: {
-    bullet: ({ children }) => `<ul class="list-disc list-inside">${children}</ul>`,
-    number: ({ children }) => `<ol class="list-decimal list-inside">${children}</ol>`,
+    bullet: ({ children }) => `<ul class="list-disc list-outside pl-5">${children}</ul>`,
+    number: ({ children }) => `<ol class="list-decimal list-outside pl-5">${children}</ol>`,
   },
   listItem: {
     bullet: ({ children }) => `<li class="mb-4">${children}</li>`,
     number: ({ children }) => `<li class="mb-6">${children}</li>`,
   },
   marks: {
-    strong: ({ children }) => `<strong class="font-semibold">${children}</strong>`,
+    strong: ({ children }) => `<strong class="font-[550]">${children}</strong>`,
     em: ({ children }) => `<em class="italic">${children}</em>`,
-    code: ({ children }) => `<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">${children}</code>`,
+    code: ({ children }) =>
+      `<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">${children}</code>`,
     underline: ({ children }) => `<span class="underline">${children}</span>`,
   },
-}
+};
 
-const htmlContent = toHTML(value, { components })
+const htmlContent = toHTML(value, { components });
 ---
 
 <div set:html={htmlContent} />

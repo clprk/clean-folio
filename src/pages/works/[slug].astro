@@ -19,7 +19,8 @@ const WORK_QUERY = `*[_type == "work" && slug.current == $slug][0]{
     _type == "textBlock" => {
       heading,
       content,
-      dark
+      dark,
+      header
     },
     _type == "gridBlock" => {
       heading,
@@ -49,6 +50,8 @@ const { projectId, dataset } = sanityClient.config();
 const urlFor = (source: SanityImageSource) =>
   projectId && dataset ? imageUrlBuilder({ projectId, dataset }).image(source) : null;
 const workImageUrl = work.image ? urlFor(work.image)?.width(1600).height(900).url() : null;
+
+let headerCount = 0;
 ---
 
 <Layout>
@@ -70,14 +73,14 @@ const workImageUrl = work.image ? urlFor(work.image)?.width(1600).height(900).ur
     </div>
 
     <!-- headline + details -->
-    <div class="grid grid-cols-1 md:grid-cols-3">
+    <div class="grid grid-cols-1 md:grid-cols-2">
       <!-- headline -->
-      <div class="border-light border-r py-10 pr-10 md:col-span-2">
+      <div class="border-light border-r py-10 pr-3 md:col-span-1">
         <h1 class="font-light tracking-tight">{work.headline}</h1>
       </div>
 
       <!-- details -->
-      <div class="flex flex-col gap-5 py-10 pl-10 text-sm md:col-span-1">
+      <div class="flex flex-col gap-5 py-10 pl-3 text-sm md:col-span-1">
         <div>
           <p class="tiny-text mb-1">Company</p>
           <p class="">{work.title}</p>
@@ -99,26 +102,79 @@ const workImageUrl = work.image ? urlFor(work.image)?.width(1600).height(900).ur
     {
       work.body &&
         work.body.map((block: any, index: number) => {
-          const blockClass = block.dark
-            ? 'container-custom-small bg-dark py-20 text-white'
-            : 'container-custom-small text-dark';
-          const blockHeaderClass = block.dark
-            ? 'mb-2 flex items-baseline gap-6 text-white'
-            : 'mb-2 flex items-baseline gap-6';
-          const borderClass = 'border-light mb-6';
-          const num = String(index + 1).padStart(2, '0');
+          const isDark = block.dark;
+          const isHeader = block.header;
+          const hasHeading = !!block.heading;
 
-          /* ── IMAGE BLOCK ── */
-          if (block._type === 'imageBlock') {
+          const headerIndex = isHeader ? ++headerCount : null;
+
+          const containerClass = [isDark ? 'bg-dark py-20 text-white' : '', isHeader ? 'mt-10' : '']
+            .filter(Boolean)
+            .join(' ');
+
+          const headerRowClass = [
+            isDark ? 'text-white' : 'text-dark',
+            isHeader ? 'mb-2 flex items-start gap-6' : 'grid grid-cols-1 gap-10 md:grid-cols-12',
+          ].join(' ');
+
+          const borderClass = 'border-light mb-6';
+          const num = headerIndex ? String(headerIndex).padStart(2, '0') : null;
+
+          /* ── TEXT BLOCK ── */
+          if (block._type === 'textBlock') {
+            const isSectionHeader = isHeader;
+
+            return (
+              <div class={containerClass}>
+                <div class="container-custom-small">
+                  {isSectionHeader && <hr class={borderClass} />}
+
+                  {isSectionHeader ? (
+                    /* ── HEADER STYLE TEXT BLOCK ── */
+                    <>
+                      <div class={headerRowClass}>
+                        <span class="text-accent small-text leading-none">{num}</span>
+                        {hasHeading && <h2 class="leading-none">{block.heading}</h2>}
+                      </div>
+
+                      {block.content && <PortableTextRenderer value={block.content} />}
+                    </>
+                  ) : (
+                    /* ── STANDARD TEXT BLOCK ── */
+
+                    <div class={headerRowClass}>
+                      {hasHeading && (
+                        <div class="md:col-span-3">
+                          <h3 class={isDark ? 'text-white' : 'text-dark'}>{block.heading}</h3>
+                        </div>
+                      )}
+
+                      {block.content && (
+                        <div
+                          class={[
+                            hasHeading ? 'md:col-span-9' : 'md:col-span-12',
+                            isDark ? 'text-white' : 'text-gray',
+                          ]
+                            .filter(Boolean)
+                            .join(' ')}
+                        >
+                          <PortableTextRenderer value={block.content} />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+
+            /* ── IMAGE BLOCK ── */
+          } else if (block._type === 'imageBlock') {
             const imageUrl = block.image ? urlFor(block.image)?.width(1200).url() : null;
             return (
-              <div class={blockClass}>
-                <div class={blockHeaderClass}>
-                  <span class="text-accent">{num}</span>
-                  {block.heading && <h3 class="">{block.heading}</h3>}
+              <div class="container-custom-small">
+                <div class={headerRowClass}>
+                  {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
                 </div>
-
-                <hr class={borderClass} />
 
                 {imageUrl && (
                   <figure>
@@ -131,35 +187,6 @@ const workImageUrl = work.image ? urlFor(work.image)?.width(1600).height(900).ur
               </div>
             );
 
-            /* ── TEXT BLOCK ── */
-          } else if (block._type === 'textBlock') {
-            return (
-              <div class={blockClass}>
-                <div class={blockHeaderClass}>
-                  <span class="text-accent">{num}</span>
-                  {block.heading && <h3>{block.heading}</h3>}
-                </div>
-
-                <hr class={borderClass} />
-
-                <div class="grid grid-cols-1 gap-10 md:grid-cols-12">
-                  {block.heading && (
-                    <div class="md:col-span-3">
-                      <p class="tiny-text">{block.heading}</p>
-                    </div>
-                  )}
-                  {block.content && (
-                    <div class={block.heading ? 'md:col-span-9' : 'md:col-span-12'}>
-                      {/* block body */}
-                      <div class="text-sm leading-relaxed font-light">
-                        <PortableTextRenderer value={block.content} />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-
             /* ── GRID BLOCK ── */
           } else if (block._type === 'gridBlock') {
             const colMap = {
@@ -169,13 +196,13 @@ const workImageUrl = work.image ? urlFor(work.image)?.width(1600).height(900).ur
             };
 
             return (
-              <div class={blockClass}>
-                <div class={blockHeaderClass}>
-                  <span class="text-accent">{num}</span>
-                  {block.heading && <h3 class="">{block.heading}</h3>}
+              <div class="container-custom-small">
+                <div class={headerRowClass}>
+                  {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
                 </div>
 
-                <hr class={borderClass} />
+                {/* <hr class={borderClass} /> */}
+
                 {/* grid */}
                 <div
                   class={`grid gap-4 ${colMap[block.columns as '2' | '3' | '4'] || 'grid-cols-1'}`}
@@ -184,7 +211,7 @@ const workImageUrl = work.image ? urlFor(work.image)?.width(1600).height(900).ur
                     block.items.map((item: any) => (
                       // grid item
                       <div class="">
-                        {item.subtitle && <p class="tiny-text mb-4">{item.subtitle}</p>}
+                        {item.subtitle && <p class="small-text mb-4">{item.subtitle}</p>}
 
                         {item.type === 'image' && item.image && (
                           <figure>
@@ -201,7 +228,7 @@ const workImageUrl = work.image ? urlFor(work.image)?.width(1600).height(900).ur
 
                         {item.type === 'text' && item.content && (
                           // block body
-                          <div class="text-sm leading-relaxed font-light">
+                          <div>
                             <PortableTextRenderer value={item.content} />
                             {item.caption && <p class="mt-4 text-left">{item.caption}</p>}
                           </div>
