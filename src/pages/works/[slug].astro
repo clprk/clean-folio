@@ -70,54 +70,29 @@ let headerCount = 0;
     </div>
 
     <!-- headline + details -->
-    <div class="border-light grid grid-cols-1 border-t md:grid-cols-2">
+    <div class="border-light grid grid-cols-1 border-t lg:grid-cols-2">
       <!-- headline -->
-      <div class="border-light border-r py-10 pr-3 md:col-span-1">
+      <div class="border-light py-10 pr-3 lg:col-span-1 lg:border-r">
         <h1 class="">{work.headline}</h1>
       </div>
 
-      <!-- details -->
-      <div class="flex flex-col gap-5 py-6 pl-3 text-sm md:col-span-1">
-        <!-- <div>
-          <p class="tiny-text mb-1">Company</p>
-          <p class="">{work.title}</p>
-        </div>
-        <div>
-          <p class="tiny-text mb-1">Role</p>
-          <p class="">{work.role}</p>
-        </div>
-        <div>
-          <p class="tiny-text mb-1">Timeline</p>
-          <p class="">{work.timeline}</p>
-        </div> -->
+      <!-- summary -->
+      <div class="flex flex-col gap-5 py-6 pl-3 text-sm lg:col-span-1">
         <div>
           <p class="tiny-text mb-1">Summary</p>
           <p>{Array.isArray(work.summary) && <PortableTextRenderer value={work.summary} />}</p>
         </div>
-        <!-- details -->
-        <!-- <div class="flex justify-between text-sm md:col-span-1">
-          <div>
-            <p class="tiny-text mb-1">Company</p>
-            <p class="">{work.title}</p>
-          </div>
-          <div>
-            <p class="tiny-text mb-1">Role</p>
-            <div class="">{work.role.map((r: string) => <p>{r}</p>)}</div>
-          </div>
-          <div>
-            <p class="tiny-text mb-1">Timeline</p>
-            <p class="">{work.timeline}</p>
-          </div>
-        </div> -->
       </div>
     </div>
     <!-- details -->
     <div class="border-light flex grid grid-cols-1 justify-between border-t text-sm md:grid-cols-2">
-      <div class="border-light border-r py-6 pr-3">
+      <!-- company -->
+      <div class="border-light py-6 pr-3 lg:border-r">
         <p class="tiny-text mb-1">Company</p>
         <p class="">{work.title}</p>
       </div>
-      <div class="grid grid-cols-2 gap-3 py-6 pl-3">
+      <!-- role + timeline -->
+      <div class="grid grid-cols-2 gap-3 pb-6 md:py-6 lg:pl-3">
         <div>
           <p class="tiny-text mb-1">Role</p>
           <div class="">{work.role.map((r: string) => <p>{r}</p>)}</div>
@@ -248,7 +223,7 @@ let headerCount = 0;
 
                 {/* grid */}
                 <div
-                  class={`grid gap-4 ${colMap[block.columns as '2' | '3' | '4'] || 'grid-cols-1'}`}
+                  class={`grid gap-12 md:gap-4 ${colMap[block.columns as '2' | '3' | '4'] || 'grid-cols-1'}`}
                 >
                   {block.items &&
                     block.items.map((item: any) => (

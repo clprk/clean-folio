@@ -14,7 +14,7 @@ import '../styles/global.css';
   </head>
   <body class="text-dark">
     <!-- Navigation -->
-    <header class="text-gray z-50 py-2">
+    <header class="text-gray relative z-50 py-2">
       <nav class="container-custom flex items-center gap-6 text-[.95em] uppercase">
         <!-- logo -->
         <div class="basis-1/2">
@@ -41,58 +41,52 @@ import '../styles/global.css';
           </a>
         </div>
 
-        <!-- mobile menu button -->
-        <button id="menu-button" class="block px-2 py-1 sm:hidden">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.5 12.0005H19.5M4.5 17.7705H19.5M4.5 6.23047H19.5"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"></path>
-          </svg>
-        </button>
-
-        <!-- navlinks -->
-        <div class="hidden basis-1/2 gap-6 sm:grid sm:grid-cols-2">
-          <div class="grid grid-cols-3 justify-items-start">
-            <a href="../"> Work </a>
-            <a href="../about">About</a>
-            <a
-              href="https://docs.google.com/document/d/1WYPBiH9gtH5_TwxMKfXFyviGZQjsrY-B/edit?usp=sharing&ouid=102465668666867636372&rtpof=true&sd=true"
-              >Resume</a
+        <div class="flex basis-1/2 justify-end lg:justify-start">
+          <!-- mobile menu button -->
+          <button id="menu-button" class="lg:hidden">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
+              <path
+                d="M4.5 12.0005H19.5M4.5 17.7705H19.5M4.5 6.23047H19.5"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"></path>
+            </svg>
+          </button>
+
+          <!-- navlinks -->
+          <div
+            id="mobile-menu"
+            class="absolute top-16 right-4 flex hidden flex-1 flex-col items-end gap-6 lg:static lg:grid lg:grid-cols-2"
+          >
+            <div
+              class="flex flex-col items-end gap-6 lg:grid lg:grid-cols-3 lg:justify-items-start"
+            >
+              <a href="../">Work</a>
+              <a href="../about">About</a>
+              <a
+                href="https://docs.google.com/document/d/1WYPBiH9gtH5_TwxMKfXFyviGZQjsrY-B/edit?usp=sharing&ouid=102465668666867636372&rtpof=true&sd=true"
+                >Resume</a
+              >
+            </div>
+            <a href="#contact" class="justify-self-end">Contact</a>
           </div>
-          <a href="#contact" class="justify-self-end"> Contact </a>
         </div>
       </nav>
-
-      <!-- Mobile Menu -->
-      <div
-        id="mobile-menu"
-        class="absolute top-20 right-4 mt-2 flex hidden w-fit flex-col items-end rounded-xl sm:hidden"
-      >
-        <a href="../" class="px-4 py-2">Work</a>
-        <a href="../about" class="px-4 py-2">About</a>
-        <a
-          href="https://drive.google.com/file/d/1aYkbI1Z-brlo3FeWJqVnlnxskvi6ihHu/view?usp=sharing"
-          class="px-4 py-2">Resume</a
-        >
-      </div>
     </header>
 
-    <!-- Body Content -->
+    <!-- body -->
     <slot />
 
     <!-- footer -->
     <footer class="footer bg-dark border-light relative mt-20 border-t text-white">
-      <div class="container-custom flex w-full flex-col flex-col-reverse py-20 sm:flex-row">
+      <div class="container-custom flex w-full flex-col-reverse py-20 md:flex-row">
         <!-- credits -->
         <div class="basis-1/2">
           <!-- logo -->
@@ -119,9 +113,10 @@ import '../styles/global.css';
           </a>
           <h4 class="text-white">Built with &lt3 by Ciel</h4>
         </div>
-        <div class="flex basis-1/2">
+        <!-- links -->
+        <div class="flex basis-1/2 flex-col md:flex-row">
           <!-- contact -->
-          <div id="contact" class="flex basis-2/3 flex-col gap-2">
+          <div id="contact" class="mb-10 flex basis-2/3 flex-col gap-2">
             <h3 class="text-white">Contact</h3>
             <a href="mailto:cielcpark@gmail.com">
               <h4>cielcpark@gmail.com</h4>
@@ -130,7 +125,7 @@ import '../styles/global.css';
             <h4 id="clock"></h4>
           </div>
           <!-- elsewhere -->
-          <div class="flex basis-1/3 flex-col gap-2">
+          <div class="mb-10 flex basis-1/3 flex-col gap-2">
             <h3 class="text-white">Elsewhere</h3>
             <a href="https://www.linkedin.com/in/clprk/">
               <h4>LinkedIn</h4>
@@ -146,8 +141,6 @@ import '../styles/global.css';
             </a>
           </div>
         </div>
-
-        <!-- <a href="../" class="text-3xl">✦</a> -->
       </div>
     </footer>
   </body>

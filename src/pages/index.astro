@@ -79,7 +79,7 @@ const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
 
     <!-- Projects -->
     <div>
-      <ul class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <ul class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {
           works.map((work) => (
             <div class="col-gap-8 flex flex-col">
@@ -102,11 +102,11 @@ const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
               </div>
               <div class="flex justify-between pt-3">
                 <h3 class="text-dark text-sm">{work.title}</h3>
-                <p class="tiny-text hidden md:block">
+                <p class="tiny-text hidden text-right sm:block">
                   {work.tags && work.tags.length > 0 ? work.tags.join(' ✦ ') : ''}
                 </p>
               </div>
-              {/* <p class="tiny-text hidden md:block">{work.description}</p> */}
+              {/* <p class="tiny-text hidden sm:block">{work.description}</p> */}
             </div>
           ))
         }

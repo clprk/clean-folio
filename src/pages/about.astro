@@ -22,16 +22,19 @@ const experiences: Experience[] = await sanityClient.fetch(`
 const images = [
   'https://cdn.sanity.io/images/rnk0k1nk/production/bb4fbceeb5d300985534664bdb5f096c445bb149-857x1284.jpg',
 ];
+
+// can't decide if lg or xl as hero breakpoint looks better!!!
+const breakpoint = 'lg';
 ---
 
 <Layout>
   <!-- hero -->
   <section>
-    <div class="container-custom my-30 flex min-h-screen flex-col gap-6">
+    <div class="container-custom my-20 flex flex-col gap-6 lg:my-30 lg:min-h-screen">
       <!-- top -->
       <div class="row-span-1 grid min-h-0 grid-rows-2 items-end gap-6">
         <!-- header -->
-        <div class="mb-10 grid grid-cols-2 gap-6">
+        <div class="mb-2 grid grid-cols-2 gap-6 lg:mb-10">
           <div></div>
           <h1>Nice to meet you,</h1>
         </div>
@@ -40,20 +43,20 @@ const images = [
           <p>02</p>
           <div></div>
           <p>Designer + Developer</p>
-          <p>About me</p>
+          <p class={`${breakpoint}:justify-self-start justify-self-end`}>About me</p>
         </div>
       </div>
       <!-- bottom -->
-      <div class="grid min-h-0 grid-cols-4 gap-6">
+      <div class={`${breakpoint}:grid-cols-4 grid min-h-0 grid-cols-1 gap-6 md:grid-cols-2`}>
         <!-- img -->
-        <div class="img-contaisner col-span-3 aspect-[5/3] w-full">
+        <div class={`${breakpoint}:col-span-3 col-span-1 aspect-[5/3] w-full img-container `}>
           <img
             src="https://cdn.sanity.io/images/rnk0k1nk/production/bb4fbceeb5d300985534664bdb5f096c445bb149-857x1284.jpg"
             class="h-full w-full object-cover object-center transition-all"
           />
         </div>
         <!-- paragraph -->
-        <div class="col-span-1 flex flex-col justify-between text-sm">
+        <div class="col-span-1 flex flex-col justify-between gap-10 text-sm">
           <div class="flex flex-col gap-4">
             <p>
               I’m Ciel, a 2024 graduate from the University of Virginia, where I studied a blend of
@@ -69,7 +72,7 @@ const images = [
               or ideas for collaboration, I’d love to hear from you!
             </p>
           </div>
-          <div>
+          <div class="md:hidden lg:block">
             <p class="tiny-text mb-2">Current Favorites:</p>
             <ul>
               <li>Books: The Design of Everyday Things</li>
