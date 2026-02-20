@@ -75,13 +75,13 @@ const images = [
         experiences.map((experience) => (
           <div class="flex flex-col justify-between gap-4 border-t border-gray-300 pt-4 md:flex-row">
             <div class="flex flex-col gap-4">
-              <h3>{experience.company}</h3>
-              <h5>{experience.role}</h5>
+              <p class="small-text leading-none">{experience.company}</p>
+              <h4>{experience.role}</h4>
               {experience.description && (
                 <p class="text-sm text-gray-600">{experience.description}</p>
               )}
             </div>
-            <h4>{experience.dates}</h4>
+            <p class="small-text leading-none">{experience.dates}</p>
           </div>
         ))
       }

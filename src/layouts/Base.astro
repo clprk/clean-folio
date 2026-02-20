@@ -15,49 +15,61 @@ import '../styles/global.css';
   <body class="text-dark">
     <!-- Navigation -->
     <header class="text-gray z-50 py-2">
-      <nav class="container-custom text-[.95em] uppercase">
-        <div class="flex items-center gap-6">
-          <!-- logo -->
-          <a href="../" class="flex basis-1/2 items-center gap-4">
-            <!-- <span class="text-dark text-6xl">*</span> -->
-            <!-- <span>Ciel Park</span> -->
-            <img
-              src="https://cdn.sanity.io/images/rnk0k1nk/production/c3ececaa25fb672efb1458aaa36d80b0907e552f-44x44.svg"
-              alt="Ciel Park Logo"
-              class="max-h-8 border-none"
-            />
-          </a>
-
-          <!-- mobile menu button -->
-          <button id="menu-button" class="block px-2 py-1 sm:hidden">
+      <nav class="container-custom flex items-center gap-6 text-[.95em] uppercase">
+        <!-- logo -->
+        <div class="basis-1/2">
+          <a href="../" class="group flex inline-flex items-center gap-4">
             <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              class="text-dark group-hover:text-accent max-h-8 transition-colors duration-200"
+              fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M4.5 12.0005H19.5M4.5 17.7705H19.5M4.5 6.23047H19.5"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
-                stroke-linecap="round"></path>
+              <g clip-path="url(#clip0_104_190)">
+                <path
+                  d="M12.873 41.932L6.657 37.381L16.758 24.505L0.996 20.176L3.438 12.739L18.756 18.4L18.09 2.083H25.86L25.194 18.4L40.512 12.739L42.954 20.176L27.192 24.505L37.293 37.381L31.077 41.932L21.975 28.279L12.873 41.932Z"
+                  fill="currentColor"></path>
+              </g>
+              <defs>
+                <clipPath id="clip0_104_190">
+                  <rect width="44" height="44" fill="white"></rect>
+                </clipPath>
+              </defs>
             </svg>
-          </button>
+          </a>
+        </div>
 
-          <!-- navlinks -->
-          <div class="flex hidden basis-1/2 justify-between sm:flex">
-            <div class="flex gap-4 sm:flex sm:gap-9">
-              <a href="../" class="flex items-center"> Work </a>
-              <a href="../about">About</a>
-              <a
-                href="https://docs.google.com/document/d/1WYPBiH9gtH5_TwxMKfXFyviGZQjsrY-B/edit?usp=sharing&ouid=102465668666867636372&rtpof=true&sd=true"
-                >Resume</a
-              >
-            </div>
-            <a href="../" class="flex items-center"> Contact </a>
+        <!-- mobile menu button -->
+        <button id="menu-button" class="block px-2 py-1 sm:hidden">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.5 12.0005H19.5M4.5 17.7705H19.5M4.5 6.23047H19.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"></path>
+          </svg>
+        </button>
+
+        <!-- navlinks -->
+        <div class="hidden basis-1/2 gap-6 sm:grid sm:grid-cols-2">
+          <div class="grid grid-cols-3 justify-items-start">
+            <a href="../"> Work </a>
+            <a href="../about">About</a>
+            <a
+              href="https://docs.google.com/document/d/1WYPBiH9gtH5_TwxMKfXFyviGZQjsrY-B/edit?usp=sharing&ouid=102465668666867636372&rtpof=true&sd=true"
+              >Resume</a
+            >
           </div>
+          <a href="#contact" class="justify-self-end"> Contact </a>
         </div>
       </nav>
 
@@ -66,11 +78,11 @@ import '../styles/global.css';
         id="mobile-menu"
         class="absolute top-20 right-4 mt-2 flex hidden w-fit flex-col items-end rounded-xl sm:hidden"
       >
-        <a href="../" class="px-4 py-2"><h4>Work</h4></a>
-        <a href="../about" class="px-4 py-2"><h4>About</h4></a>
+        <a href="../" class="px-4 py-2">Work</a>
+        <a href="../about" class="px-4 py-2">About</a>
         <a
           href="https://drive.google.com/file/d/1aYkbI1Z-brlo3FeWJqVnlnxskvi6ihHu/view?usp=sharing"
-          class="px-4 py-2"><h4>Resume</h4></a
+          class="px-4 py-2">Resume</a
         >
       </div>
     </header>
@@ -83,32 +95,54 @@ import '../styles/global.css';
       <div class="container-custom flex w-full flex-col flex-col-reverse py-20 sm:flex-row">
         <!-- credits -->
         <div class="basis-1/2">
-          <h3 class="text-white">Built with &lt3 by Ciel</h3>
+          <!-- logo -->
+          <a href="../" class="group mb-6 flex inline-flex gap-4">
+            <svg
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              class="group-hover:text-accent max-h-8 text-white transition-colors duration-200"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_104_190)">
+                <path
+                  d="M12.873 41.932L6.657 37.381L16.758 24.505L0.996 20.176L3.438 12.739L18.756 18.4L18.09 2.083H25.86L25.194 18.4L40.512 12.739L42.954 20.176L27.192 24.505L37.293 37.381L31.077 41.932L21.975 28.279L12.873 41.932Z"
+                  fill="currentColor"></path>
+              </g>
+              <defs>
+                <clipPath id="clip0_104_190">
+                  <rect width="44" height="44" fill="white"></rect>
+                </clipPath>
+              </defs>
+            </svg>
+          </a>
+          <h4 class="text-white">Built with &lt3 by Ciel</h4>
         </div>
         <div class="flex basis-1/2">
           <!-- contact -->
-          <div class="flex basis-2/3 flex-col gap-2">
+          <div id="contact" class="flex basis-2/3 flex-col gap-2">
             <h3 class="text-white">Contact</h3>
             <a href="mailto:cielcpark@gmail.com">
-              <h5>cielcpark@gmail.com</h5>
+              <h4>cielcpark@gmail.com</h4>
             </a>
-            <h5>Washington DC</h5>
-            <h5 id="clock"></h5>
+            <h4>Washington DC</h4>
+            <h4 id="clock"></h4>
           </div>
           <!-- elsewhere -->
           <div class="flex basis-1/3 flex-col gap-2">
             <h3 class="text-white">Elsewhere</h3>
             <a href="https://www.linkedin.com/in/clprk/">
-              <h5>LinkedIn</h5>
+              <h4>LinkedIn</h4>
             </a>
             <a href="https://www.figma.com/@clprk">
-              <h5>Figma</h5>
+              <h4>Figma</h4>
             </a>
             <a href="https://github.com/clprk">
-              <h5>GitHub</h5>
+              <h4>GitHub</h4>
             </a>
             <a href="https://codepen.io/clprk">
-              <h5>CodePen</h5>
+              <h4>CodePen</h4>
             </a>
           </div>
         </div>

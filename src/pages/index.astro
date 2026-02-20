@@ -43,7 +43,7 @@ const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
           <!-- curr + prev -->
           <div class="flex flex-1 flex-col gap-6 lg:flex-row">
             <div class="flex flex-1 flex-col gap-1">
-              <h5 class="tiny-text mb-2">Currently</h5>
+              <p class="tiny-text mb-2">Currently</p>
               <div>
                 <span>UX Designer @</span>
                 <a href="https://www.northropgrumman.com/" target="_blank"
@@ -52,7 +52,7 @@ const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
               </div>
             </div>
             <div class="flex-1">
-              <h5 class="tiny-text mb-2">Previously</h5>
+              <p class="tiny-text mb-2">Previously</p>
               <div class="hidden gap-2 md:flex">
                 <span>UI Developer Intern @</span>
                 <a href="https://viget.com" target="_blank"><span>Viget</span></a>
@@ -100,11 +100,11 @@ const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
               </div>
               <div class="flex justify-between pt-3">
                 <h3 class="text-dark text-sm">{work.title}</h3>
-                <h4 class="tiny-text hidden md:block">
+                <p class="tiny-text hidden md:block">
                   {work.tags && work.tags.length > 0 ? work.tags.join(' ✦ ') : ''}
-                </h4>
+                </p>
               </div>
-              {/* <h5 class="md:text-center">{work.description}</h5> */}
+              {/* <p class="tiny-text hidden md:block">{work.description}</p> */}
             </div>
           ))
         }

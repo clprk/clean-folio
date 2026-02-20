@@ -58,7 +58,7 @@ let headerCount = 0;
   <!-- ── HERO ──────────────────────────────────────────────── -->
   <section class="container-custom-small">
     <!-- tags -->
-    <div class="border-light flex items-center gap-2 border-b py-3">
+    <div class="flex items-center gap-2 py-3">
       {
         work.tags?.map((tag: string, i: number) => (
           <span class="tiny-text">
@@ -70,10 +70,10 @@ let headerCount = 0;
     </div>
 
     <!-- headline + details -->
-    <div class="grid grid-cols-1 md:grid-cols-2">
+    <div class="border-light grid grid-cols-1 border-t md:grid-cols-2">
       <!-- headline -->
       <div class="border-light border-r py-10 pr-3 md:col-span-1">
-        <h1 class="font-light tracking-tight">{work.headline}</h1>
+        <h1 class="">{work.headline}</h1>
       </div>
 
       <!-- details -->
@@ -95,7 +95,7 @@ let headerCount = 0;
           <p>{Array.isArray(work.summary) && <PortableTextRenderer value={work.summary} />}</p>
         </div>
         <!-- details -->
-        <div class="flex justify-between text-sm md:col-span-1">
+        <!-- <div class="flex justify-between text-sm md:col-span-1">
           <div>
             <p class="tiny-text mb-1">Company</p>
             <p class="">{work.title}</p>
@@ -108,6 +108,23 @@ let headerCount = 0;
             <p class="tiny-text mb-1">Timeline</p>
             <p class="">{work.timeline}</p>
           </div>
+        </div> -->
+      </div>
+    </div>
+    <!-- details -->
+    <div class="border-light flex grid grid-cols-1 justify-between border-t text-sm md:grid-cols-2">
+      <div class="border-light border-r py-6 pr-3">
+        <p class="tiny-text mb-1">Company</p>
+        <p class="">{work.title}</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3 py-6 pl-3">
+        <div>
+          <p class="tiny-text mb-1">Role</p>
+          <div class="">{work.role.map((r: string) => <p>{r}</p>)}</div>
+        </div>
+        <div>
+          <p class="tiny-text mb-1">Timeline</p>
+          <p class="">{work.timeline}</p>
         </div>
       </div>
     </div>

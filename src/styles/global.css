@@ -24,39 +24,38 @@
 }
 
 /* GLOBAL STYLES */
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   @apply text-gray font-sans leading-relaxed;
 }
 
+/* page header */
 h1 {
   @apply text-dark text-2xl md:text-5xl;
 }
+/* section headers */
 h2 {
   @apply text-dark mb-3 text-xl uppercase md:text-3xl;
 }
+/* sub-section headers */
 h3 {
   @apply mb-3 text-lg uppercase;
 }
+/* resume role + footer body */
 h4 {
-  @apply mb-3 font-mono uppercase;
-}
-h5 {
   @apply font-mono;
 }
-/* p {
-  @apply leading-relaxed;
-}
-li {
-  @apply leading-relaxed;
-} */
 
 a {
-  @apply font-mono;
+  @apply font-mono italic ease-in-out;
 }
 a:hover {
   @apply text-accent;
 }
+
 button {
   @apply font-mono uppercase;
 }
@@ -80,15 +79,38 @@ ol ol {
 .container-custom-small {
   @apply mx-auto w-4xl px-4;
 }
+.img-container {
+  @apply border-light overflow-hidden border;
+}
 
 .small-text {
   @apply text-sm uppercase;
 }
-
 .tiny-text {
   @apply font-mono text-[0.7rem] tracking-widest uppercase;
 }
+/* .nav-link {
+  @apply mb-3 font-mono uppercase;
+} */
 
-.img-container {
-  @apply border-light overflow-hidden border;
+/* .img-container:has(a):hover {
+  @apply border-accent;
+} */
+
+/* scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray);
+  border-radius: 10px;
+
+  @apply ease-in-out;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-dark opacity-50;
 }
