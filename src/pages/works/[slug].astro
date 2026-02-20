@@ -55,7 +55,7 @@ let headerCount = 0;
 ---
 
 <Layout>
-  <!-- ── HERO ──────────────────────────────────────────────── -->
+  <!-- ── hero -->
   <section class="container-custom-small">
     <!-- tags -->
     <div class="flex items-center gap-2 py-3">
@@ -95,7 +95,7 @@ let headerCount = 0;
       <div class="grid grid-cols-2 gap-3 pb-6 md:py-6 lg:pl-3">
         <div>
           <p class="tiny-text mb-1">Role</p>
-          <div class="">{work.role.map((r: string) => <p>{r}</p>)}</div>
+          <div class="">{work.role?.map((r: string) => <p>{r}</p>)}</div>
         </div>
         <div>
           <p class="tiny-text mb-1">Timeline</p>
@@ -118,148 +118,146 @@ let headerCount = 0;
   <!-- ── BODY ───────────────────────────────────────── -->
   <section class="mt-20 flex flex-col gap-20">
     {
-      work.body &&
-        work.body.map((block: any, index: number) => {
-          const isDark = block.dark;
-          const isHeader = block.header;
-          const hasHeading = !!block.heading;
+      work.body?.map((block: any) => {
+        const isDark = block.dark;
+        const isHeader = block.header;
+        const hasHeading = !!block.heading;
 
-          const headerIndex = isHeader ? ++headerCount : null;
+        const headerIndex = isHeader ? ++headerCount : null;
 
-          const containerClass = [isDark ? 'bg-dark py-20 text-white' : '', isHeader ? 'mt-10' : '']
-            .filter(Boolean)
-            .join(' ');
+        const containerClass = [isDark ? 'bg-dark py-20 text-white' : '', isHeader ? 'mt-10' : '']
+          .filter(Boolean)
+          .join(' ');
 
-          const headerRowClass = [
-            isDark ? 'text-white' : 'text-dark',
-            isHeader ? 'mb-2 flex items-start gap-6' : 'grid grid-cols-1 gap-10 md:grid-cols-12',
-          ].join(' ');
+        const headerRowClass = [
+          isDark ? 'text-white' : 'text-dark',
+          isHeader ? 'mb-2 flex items-start gap-6' : 'grid grid-cols-1 gap-10 md:grid-cols-12',
+        ].join(' ');
 
-          const borderClass = 'border-light mb-6';
-          const num = headerIndex ? String(headerIndex).padStart(2, '0') : null;
+        const borderClass = 'border-light mb-6';
+        const num = headerIndex ? String(headerIndex).padStart(2, '0') : null;
 
-          /* ── TEXT BLOCK ── */
-          if (block._type === 'textBlock') {
-            const isSectionHeader = isHeader;
+        /* ── TEXT BLOCK ── */
+        if (block._type === 'textBlock') {
+          const isSectionHeader = isHeader;
 
-            return (
-              <div class={containerClass}>
-                <div class="container-custom-small">
-                  {isSectionHeader && <hr class={borderClass} />}
-
-                  {isSectionHeader ? (
-                    /* ── HEADER STYLE TEXT BLOCK ── */
-                    <>
-                      <div class={headerRowClass}>
-                        <span class="text-accent small-text mt-1 leading-none">{num}</span>
-                        {hasHeading && <h2 class="leading-none">{block.heading}</h2>}
-                      </div>
-
-                      {block.content && <PortableTextRenderer value={block.content} />}
-                    </>
-                  ) : (
-                    /* ── STANDARD TEXT BLOCK ── */
-
-                    <div class={headerRowClass}>
-                      {hasHeading && (
-                        <div class="md:col-span-3">
-                          <h3 class={isDark ? 'text-white' : 'text-dark'}>{block.heading}</h3>
-                        </div>
-                      )}
-
-                      {block.content && (
-                        <div
-                          class={[
-                            hasHeading ? 'md:col-span-9' : 'md:col-span-12',
-                            isDark ? 'text-white' : 'text-gray',
-                          ]
-                            .filter(Boolean)
-                            .join(' ')}
-                        >
-                          <PortableTextRenderer value={block.content} />
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-
-            /* ── IMAGE BLOCK ── */
-          } else if (block._type === 'imageBlock') {
-            const imageUrl = block.image ? urlFor(block.image)?.width(1200).url() : null;
-            return (
+          return (
+            <div class={containerClass}>
               <div class="container-custom-small">
-                <div class={headerRowClass}>
-                  {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
-                </div>
+                {isSectionHeader && <hr class={borderClass} />}
 
-                {imageUrl && (
-                  <figure>
-                    <div class="img-container">
-                      <img src={imageUrl} alt={block.image?.alt || ''} class="w-full" />
+                {isSectionHeader ? (
+                  /* ── HEADER STYLE TEXT BLOCK ── */
+                  <>
+                    <div class={headerRowClass}>
+                      <span class="text-accent small-text mt-1 leading-none">{num}</span>
+                      {hasHeading && <h2 class="leading-none">{block.heading}</h2>}
                     </div>
-                    {block.caption && <figcaption>{block.caption}</figcaption>}
-                  </figure>
+
+                    {block.content && <PortableTextRenderer value={block.content} />}
+                  </>
+                ) : (
+                  /* ── STANDARD TEXT BLOCK ── */
+
+                  <div class={headerRowClass}>
+                    {hasHeading && (
+                      <div class="md:col-span-3">
+                        <h3 class={isDark ? 'text-white' : 'text-dark'}>{block.heading}</h3>
+                      </div>
+                    )}
+
+                    {block.content && (
+                      <div
+                        class={[
+                          hasHeading ? 'md:col-span-9' : 'md:col-span-12',
+                          isDark ? 'text-white' : 'text-gray',
+                        ]
+                          .filter(Boolean)
+                          .join(' ')}
+                      >
+                        <PortableTextRenderer value={block.content} />
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
-            );
+            </div>
+          );
 
-            /* ── GRID BLOCK ── */
-          } else if (block._type === 'gridBlock') {
-            const colMap = {
-              '2': 'grid-cols-1 md:grid-cols-2',
-              '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-              '4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-            };
-
-            return (
-              <div class="container-custom-small">
-                <div class={headerRowClass}>
-                  {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
-                </div>
-
-                {/* <hr class={borderClass} /> */}
-
-                {/* grid */}
-                <div
-                  class={`grid gap-12 md:gap-4 ${colMap[block.columns as '2' | '3' | '4'] || 'grid-cols-1'}`}
-                >
-                  {block.items &&
-                    block.items.map((item: any) => (
-                      // grid item
-                      <div class="">
-                        {item.subtitle && <p class="small-text mb-4">{item.subtitle}</p>}
-
-                        {item.type === 'image' && item.image && (
-                          <figure>
-                            <div class="img-container">
-                              <img
-                                src={urlFor(item.image)?.width(600).url() || ''}
-                                alt={item.image.alt || ''}
-                                class="w-full"
-                              />
-                            </div>
-                            {item.caption && <figcaption>{item.caption}</figcaption>}
-                          </figure>
-                        )}
-
-                        {item.type === 'text' && item.content && (
-                          // block body
-                          <div>
-                            <PortableTextRenderer value={item.content} />
-                            {item.caption && <p class="mt-4 text-left">{item.caption}</p>}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                </div>
+          /* ── IMAGE BLOCK ── */
+        } else if (block._type === 'imageBlock') {
+          const imageUrl = block.image ? urlFor(block.image)?.width(1200).url() : null;
+          return (
+            <div class="container-custom-small">
+              <div class={headerRowClass}>
+                {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
               </div>
-            );
-          }
 
-          return null;
-        })
+              {imageUrl && (
+                <figure>
+                  <div class="img-container">
+                    <img src={imageUrl} alt={block.image?.alt || ''} class="w-full" />
+                  </div>
+                  {block.caption && <figcaption>{block.caption}</figcaption>}
+                </figure>
+              )}
+            </div>
+          );
+
+          /* ── GRID BLOCK ── */
+        } else if (block._type === 'gridBlock') {
+          const colMap = {
+            '2': 'grid-cols-1 md:grid-cols-2',
+            '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+            '4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+          };
+
+          return (
+            <div class="container-custom-small">
+              <div class={headerRowClass}>
+                {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
+              </div>
+
+              {/* <hr class={borderClass} /> */}
+
+              {/* grid */}
+              <div
+                class={`grid gap-12 md:gap-4 ${colMap[block.columns as '2' | '3' | '4'] || 'grid-cols-1'}`}
+              >
+                {block.items?.map((item: any) => (
+                  // grid item
+                  <div class="">
+                    {item.subtitle && <p class="small-text mb-4">{item.subtitle}</p>}
+
+                    {item.type === 'image' && item.image && (
+                      <figure>
+                        <div class="img-container">
+                          <img
+                            src={urlFor(item.image)?.width(600).url() || ''}
+                            alt={item.image.alt || ''}
+                            class="w-full"
+                          />
+                        </div>
+                        {item.caption && <figcaption>{item.caption}</figcaption>}
+                      </figure>
+                    )}
+
+                    {item.type === 'text' && item.content && (
+                      // block body
+                      <div>
+                        <PortableTextRenderer value={item.content} />
+                        {item.caption && <p class="mt-4 text-left">{item.caption}</p>}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        }
+
+        return null;
+      })
     }
   </section>
 </Layout>
