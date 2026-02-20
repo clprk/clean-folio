@@ -27,70 +27,71 @@ const images = [
 <Layout>
   <!-- hero -->
   <section>
-    <div class="container-custom grid h-[34rem] grid-rows-3 gap-6">
+    <div class="container-custom my-30 flex min-h-screen flex-col gap-6">
       <!-- top -->
-      <!-- <div class="grid grid-cols-12 gap-6">
-        <div class="col-span-8"></div>
-        <div class="img-container col-span-4 aspect-square h-full">
+      <div class="row-span-1 grid min-h-0 grid-rows-2 items-end gap-6">
+        <!-- header -->
+        <div class="mb-10 grid grid-cols-2 gap-6">
+          <div></div>
+          <h1>Nice to meet you,</h1>
+        </div>
+        <!-- details -->
+        <div class="tiny-text grid grid-cols-4 gap-6">
+          <p>02</p>
+          <div></div>
+          <p>Designer + Developer</p>
+          <p>About me</p>
+        </div>
+      </div>
+      <!-- bottom -->
+      <div class="grid min-h-0 grid-cols-4 gap-6">
+        <!-- img -->
+        <div class="img-contaisner col-span-3 aspect-[5/3] w-full">
           <img
             src="https://cdn.sanity.io/images/rnk0k1nk/production/bb4fbceeb5d300985534664bdb5f096c445bb149-857x1284.jpg"
             class="h-full w-full object-cover object-center transition-all"
           />
         </div>
-      </div> -->
-      <div></div>
-      <!-- middle -->
-      <div class="grid grid-cols-2 pl-6">
-        <div></div>
-        <div class="grid grid-cols-3">
-          <!-- <div class="img-container aspect-square h-full">
-            <img
-              src="https://cdn.sanity.io/images/rnk0k1nk/production/bb4fbceeb5d300985534664bdb5f096c445bb149-857x1284.jpg"
-              class="h-full w-full object-cover object-center transition-all"
-            />
-          </div> -->
-          <div></div>
-          <div></div>
-          <div class="img-container aspect-square h-full">
-            <img
-              src="https://cdn.sanity.io/images/rnk0k1nk/production/bb4fbceeb5d300985534664bdb5f096c445bb149-857x1284.jpg"
-              class="h-full w-full object-cover object-center transition-all"
-            />
+        <!-- paragraph -->
+        <div class="col-span-1 flex flex-col justify-between text-sm">
+          <div class="flex flex-col gap-4">
+            <p>
+              I’m Ciel, a 2024 graduate from the University of Virginia, where I studied a blend of
+              computer science, psychology, and design.
+            </p>
+            <p>
+              Previously I’ve worked for a nonprofit, a startup, and an agency, where I worked on
+              feature launches, experimented with animation, and learned professional web
+              development.
+            </p>
+            <p>
+              Thanks for reading, and for visiting my page :) If you have any feedback, questions,
+              or ideas for collaboration, I’d love to hear from you!
+            </p>
           </div>
-        </div>
-      </div>
-      <!-- bottom -->
-      <div class="row-span-1 grid grid-cols-2 gap-6">
-        <h1 class="col-span-1">Nice to meet you,</h1>
-        <div class="col-span-1 flex flex-col gap-4 text-sm">
-          <p>
-            I’m Ciel, a 2024 graduate from the University of Virginia, where I studied a blend of
-            computer science, psychology, and design.
-          </p>
-          <p>
-            Previously I’ve worked for a nonprofit, a startup, and an agency, where I worked on
-            feature launches, experimented with animation, and learned professional web development.
-          </p>
-          <p>
-            Apart from UX/UI, I love fashion, journaling, cozy games, ramen noodles, playing tennis,
-            and books — currently (Aug 2025), I'm reading The Creative Act by Rick Rubin.
-          </p>
-          <p>
-            Thanks for reading, and for visiting my page :) If you have any feedback, questions, or
-            ideas for collaboration, I’d love to hear from you!
-          </p>
+          <div>
+            <p class="tiny-text mb-2">Current Favorites:</p>
+            <ul>
+              <li>Books: The Design of Everyday Things</li>
+              <li>Shows: Jujutsu Kaisen</li>
+              <li>Games: Silent Hill F</li>
+              <li>Music: Radiohead, Oklou, Yerin Baek</li>
+              <li>Food: Rose Tteokbokki</li>
+              <li>Fashion: Skirts over pants, Yohji Yamamoto</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Projects Section -->
-  <section class="container-custom flex flex-col gap-8 py-24 md:gap-24 md:py-50">
-    <h2>✦ Experience</h2>
+  <section class="container-custom flex flex-col gap-8 md:gap-24">
+    <!-- <h2>✦ Experience</h2> -->
     <div class="flex flex-col gap-10">
       {
         experiences.map((experience) => (
-          <div class="flex flex-col justify-between gap-4 border-t border-gray-300 pt-4 md:flex-row">
+          <div class="border-light flex flex-col justify-between gap-4 border-t pt-4 md:flex-row">
             <div class="flex flex-col gap-4">
               <p class="small-text leading-none">{experience.company}</p>
               <h4>{experience.role}</h4>

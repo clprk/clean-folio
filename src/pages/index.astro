@@ -32,16 +32,17 @@ const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
 
 <Layout>
   <section class="">
-    <div class="container-custom flex h-[34rem] flex-col">
+    <div class="container-custom flex min-h-[34rem] flex-col">
       <!-- heading -->
       <div class="flex flex-1 items-end lg:w-1/2">
         <h1>I’m Ciel, and I bring ideas to life with design + code</h1>
       </div>
       <!-- summary -->
       <div class="flex flex-1 items-end">
-        <div class="flex w-full gap-6">
-          <!-- curr + prev -->
+        <div class="flex w-full flex-col gap-6 lg:flex-row">
+          <!-- roles -->
           <div class="flex flex-1 flex-col gap-6 lg:flex-row">
+            <!-- currently -->
             <div class="flex flex-1 flex-col gap-1">
               <p class="tiny-text mb-2">Currently</p>
               <div>
@@ -51,9 +52,10 @@ const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
                 >
               </div>
             </div>
+            <!-- previously -->
             <div class="flex-1">
               <p class="tiny-text mb-2">Previously</p>
-              <div class="hidden gap-2 md:flex">
+              <div>
                 <span>UI Developer Intern @</span>
                 <a href="https://viget.com" target="_blank"><span>Viget</span></a>
               </div>
