@@ -66,10 +66,16 @@ img {
 figcaption {
   @apply text-gray mt-3 font-mono text-[0.7rem] tracking-widest uppercase;
 }
+ul ul,
+ul ol,
+ol ul,
+ol ol {
+  @apply mt-4 pl-10;
+}
 
 /* CUSTOM CLASSES */
 .container-custom {
-  @apply mx-auto px-2 md:px-4;
+  @apply mx-auto max-w-[120rem] px-2 md:px-4;
 }
 .container-custom-small {
   @apply mx-auto w-4xl px-4;

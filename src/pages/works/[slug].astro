@@ -57,19 +57,16 @@ let headerCount = 0;
 <Layout>
   <!-- ── HERO ──────────────────────────────────────────────── -->
   <section class="container-custom-small">
-    <!-- hero image -->
-    <div class="img-container h-[50vh] w-full overflow-hidden">
-      <img
-        src={workImageUrl || ''}
-        alt={work.image?.alt || ''}
-        class="h-full w-full object-cover"
-        style="filter: grayscale(15%) contrast(1.05);"
-      />
-    </div>
-
     <!-- tags -->
-    <div class="border-light flex items-center gap-6 border-b py-3">
-      {work.tags && work.tags.map((tag: string) => <span class="tiny-text">{tag}</span>)}
+    <div class="border-light flex items-center gap-2 border-b py-3">
+      {
+        work.tags?.map((tag: string, i: number) => (
+          <span class="tiny-text">
+            {tag}
+            {i < work.tags.length - 1 && '✦'}
+          </span>
+        ))
+      }
     </div>
 
     <!-- headline + details -->
@@ -80,8 +77,8 @@ let headerCount = 0;
       </div>
 
       <!-- details -->
-      <div class="flex flex-col gap-5 py-10 pl-3 text-sm md:col-span-1">
-        <div>
+      <div class="flex flex-col gap-5 py-6 pl-3 text-sm md:col-span-1">
+        <!-- <div>
           <p class="tiny-text mb-1">Company</p>
           <p class="">{work.title}</p>
         </div>
@@ -92,8 +89,37 @@ let headerCount = 0;
         <div>
           <p class="tiny-text mb-1">Timeline</p>
           <p class="">{work.timeline}</p>
+        </div> -->
+        <div>
+          <p class="tiny-text mb-1">Summary</p>
+          <p>{Array.isArray(work.summary) && <PortableTextRenderer value={work.summary} />}</p>
+        </div>
+        <!-- details -->
+        <div class="flex justify-between text-sm md:col-span-1">
+          <div>
+            <p class="tiny-text mb-1">Company</p>
+            <p class="">{work.title}</p>
+          </div>
+          <div>
+            <p class="tiny-text mb-1">Role</p>
+            <div class="">{work.role.map((r: string) => <p>{r}</p>)}</div>
+          </div>
+          <div>
+            <p class="tiny-text mb-1">Timeline</p>
+            <p class="">{work.timeline}</p>
+          </div>
         </div>
       </div>
+    </div>
+
+    <!-- hero image -->
+    <div class="img-container mt-6 h-[50vh] w-full overflow-hidden">
+      <img
+        src={workImageUrl || ''}
+        alt={work.image?.alt || ''}
+        class="h-full w-full object-cover"
+        style="filter: grayscale(15%) contrast(1.05);"
+      />
     </div>
   </section>
 
@@ -133,7 +159,7 @@ let headerCount = 0;
                     /* ── HEADER STYLE TEXT BLOCK ── */
                     <>
                       <div class={headerRowClass}>
-                        <span class="text-accent small-text leading-none">{num}</span>
+                        <span class="text-accent small-text mt-1 leading-none">{num}</span>
                         {hasHeading && <h2 class="leading-none">{block.heading}</h2>}
                       </div>
 

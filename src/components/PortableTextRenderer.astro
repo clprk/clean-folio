@@ -63,8 +63,8 @@ const components: Partial<PortableTextHtmlComponents> = {
     number: ({ children }) => `<li class="mb-6">${children}</li>`,
   },
   marks: {
-    strong: ({ children }) => `<strong class="font-[550]">${children}</strong>`,
-    em: ({ children }) => `<em class="italic">${children}</em>`,
+    strong: ({ children }) => `<strong class="font-normal text-accent">${children}</strong>`,
+    em: ({ children }) => `<em class="italic text-accent">${children}</em>`,
     code: ({ children }) =>
       `<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">${children}</code>`,
     underline: ({ children }) => `<span class="underline">${children}</span>`,
