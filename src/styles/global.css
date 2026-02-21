@@ -67,6 +67,7 @@ a {
 }
 a:hover {
   @apply text-accent;
+  /* not-italic */
 }
 
 button {

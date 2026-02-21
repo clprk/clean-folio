@@ -34,11 +34,11 @@ const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
   <section class="">
     <div class="container-custom flex min-h-[34rem] flex-col">
       <!-- heading -->
-      <div class="flex flex-1 items-end lg:w-1/2">
+      <div data-reveal class="flex flex-1 items-end lg:w-1/2">
         <h1>I’m Ciel, and I bring ideas to life with design + code</h1>
       </div>
       <!-- summary -->
-      <div class="flex flex-1 items-end">
+      <div data-reveal class="flex flex-1 items-end">
         <div class="flex w-full flex-col gap-6 lg:flex-row">
           <!-- roles -->
           <div class="flex flex-1 flex-col gap-6 lg:flex-row">
@@ -82,7 +82,7 @@ const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
       <ul class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {
           works.map((work) => (
-            <div class="col-gap-8 flex flex-col">
+            <div data-reveal class="col-gap-8 flex flex-col">
               {/* class={`flex flex-col gap-8 
           ${index % 2 === 0 ? "basis-2/3" : "basis-1/3"}`} */}
               <div class="img-container aspect-[5/3]">

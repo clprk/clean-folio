@@ -13,17 +13,47 @@ import '../styles/global.css';
     <title>Ciel Park | Designer + Developer</title>
   </head>
   <body class="text-dark">
+    <!-- Intro animation logo (fixed, managed by GSAP) -->
+    <div
+      id="intro-logo"
+      class="text-accent"
+      style="position:fixed; top:50%; left:50%; width:44px; height:44px; z-index:999; transform:translate(-50%,-50%); will-change:transform;"
+      aria-hidden="true"
+    >
+      <svg
+        width="44"
+        height="44"
+        viewBox="0 0 44 44"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g clip-path="url(#clip0_intro)">
+          <path
+            d="M12.873 41.932L6.657 37.381L16.758 24.505L0.996 20.176L3.438 12.739L18.756 18.4L18.09 2.083H25.86L25.194 18.4L40.512 12.739L42.954 20.176L27.192 24.505L37.293 37.381L31.077 41.932L21.975 28.279L12.873 41.932Z"
+            fill="currentColor"></path>
+        </g>
+        <defs>
+          <clipPath id="clip0_intro">
+            <rect width="44" height="44" fill="white"></rect>
+          </clipPath>
+        </defs>
+      </svg>
+    </div>
     <!-- Navigation -->
-    <header class="text-gray relative z-50 py-2">
+    <header
+      id="site-header"
+      class="text-gray relative z-50 py-2"
+      style="opacity:0; visibility:hidden;"
+    >
       <nav class="container-custom flex items-center gap-6 text-[.95em] uppercase">
         <!-- logo -->
         <div class="basis-1/2">
-          <a href="../" class="group flex inline-flex items-center gap-4">
+          <a href="../" class="group flex inline-flex items-center gap-4" id="nav-logo-link">
             <svg
               width="44"
               height="44"
               viewBox="0 0 44 44"
-              class="text-dark group-hover:text-accent max-h-8 transition-colors duration-200"
+              class="text-dark group-hover:text-accent max-h-8 transition-[transform,color] duration-300 ease-out group-hover:rotate-[-60deg]"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -82,10 +112,15 @@ import '../styles/global.css';
     </header>
 
     <!-- body -->
-    <slot />
-
+    <main id="page-content" style="opacity:0; visibility:hidden;">
+      <slot />
+    </main>
     <!-- footer -->
-    <footer class="footer bg-dark border-light relative mt-20 border-t text-white">
+    <footer
+      id="site-footer"
+      style="opacity:0; visibility:hidden;"
+      class="footer bg-dark border-light relative mt-20 border-t text-white"
+    >
       <div class="container-custom flex w-full flex-col-reverse py-20 md:flex-row">
         <!-- credits -->
         <div class="basis-1/2">
@@ -95,7 +130,7 @@ import '../styles/global.css';
               width="44"
               height="44"
               viewBox="0 0 44 44"
-              class="group-hover:text-accent max-h-8 text-white transition-colors duration-200"
+              class="group-hover:text-accent max-h-8 text-white transition-[transform,color] duration-300 ease-out group-hover:rotate-[-60deg]"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -148,6 +183,8 @@ import '../styles/global.css';
 </html>
 
 <script>
+  import { gsap } from 'gsap';
+
   // displaying mobile menu
   document.addEventListener('DOMContentLoaded', () => {
     const menuButton = document.getElementById('menu-button');
@@ -173,4 +210,106 @@ import '../styles/global.css';
     }
   }
   setInterval(clock, 1000);
+
+  // ── Intro animation ──────────────────────────────────────
+  (function () {
+    gsap.defaults({ ease: 'none' });
+
+    const introLogo = document.getElementById('intro-logo');
+    const header = document.getElementById('site-header');
+    const footer = document.getElementById('site-footer');
+    const navLogoLink = document.getElementById('nav-logo-link');
+    const pageContent = document.getElementById('page-content');
+
+    if (!introLogo) return;
+
+    // ── rotation ──────────────
+    const STEPS = 3;
+    const STEP_DUR = 0.4;
+    const STEP_GAP = 0.5;
+    const rotState = { angle: 0 };
+    const rotTL = gsap.timeline();
+
+    for (let i = 1; i <= STEPS; i++) {
+      rotTL.to(rotState, {
+        angle: i * 60,
+        duration: STEP_DUR,
+        ease: 'power2.out',
+        delay: i === 1 ? 0 : STEP_GAP - STEP_DUR,
+        onUpdate() {
+          introLogo.style.transform = `translate(-50%, -50%) rotate(${rotState.angle}deg)`;
+        },
+      });
+    }
+
+    // ── logo goes to position ─────────────────
+    const ROTATE_END = STEPS * STEP_GAP + 0.06;
+
+    rotTL.add(() => {
+      const logoRect = introLogo.getBoundingClientRect();
+      const startCX = logoRect.left + logoRect.width / 2;
+      const startCY = logoRect.top + logoRect.height / 2;
+
+      // Target the CENTRE of the nav logo, not its top-left
+      const targetRect = navLogoLink
+        ? navLogoLink.getBoundingClientRect()
+        : { left: 40, top: 8, width: 32, height: 32 };
+
+      const targetCX = targetRect.left + targetRect.width / 2;
+      const targetCY = targetRect.top + targetRect.height / 2;
+
+      // Anchor the intro logo by its centre
+      gsap.set(introLogo, {
+        top: startCY - 22, // correct: half of 44px
+        left: startCX - 22,
+        xPercent: 0,
+        yPercent: 0,
+        rotation: 0,
+      });
+
+      // Fly to nav centre, scale down to match max-h-8 (32px = 32/44 ≈ 0.727)
+      gsap.to(introLogo, {
+        top: targetCY - 22, // keep centred during flight
+        left: targetCX - 22,
+        scale: 32 / 44, // shrinks the div AND the SVG together
+        duration: 0.5,
+        ease: 'power2.inOut',
+        onComplete: revealPage,
+      });
+    }, ROTATE_END);
+
+    // ── reveal page ───────────────────
+    function revealPage() {
+      // hide the floating intro logo — the real nav logo takes over
+      // gsap.set(introLogo, { display: 'none', duration: 0.5, ease: 'power1.out' });
+      gsap.to(introLogo, {
+        opacity: 0,
+        duration: 0.3,
+        delay: 0.4,
+        ease: 'none',
+        onComplete: () => {
+          gsap.set(introLogo, { display: 'none' });
+        },
+      });
+
+      // reveal header
+      gsap.set(header, { visibility: 'visible' });
+      gsap.fromTo(header, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power1.out' });
+
+      // Reveal page content
+      gsap.set(pageContent, { visibility: 'visible', opacity: 1 });
+      gsap.from('[data-reveal]', {
+        opacity: 0,
+        y: 16,
+        duration: 0.4,
+        ease: 'power1.out',
+        stagger: 0.12,
+        delay: 0.15,
+      });
+
+      // reveal footer
+      gsap.set(footer, { visibility: 'visible' });
+      gsap.fromTo(footer, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power1.out' });
+    }
+  })();
 </script>

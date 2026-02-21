@@ -58,7 +58,7 @@ let headerCount = 0;
   <!-- ── hero -->
   <section class="container-custom-small">
     <!-- tags -->
-    <div class="flex items-center gap-2 py-3">
+    <div data-reveal class="flex items-center gap-2 py-3">
       {
         work.tags?.map((tag: string, i: number) => (
           <span class="tiny-text">
@@ -68,44 +68,47 @@ let headerCount = 0;
         ))
       }
     </div>
+    <div data-reveal>
+      <!-- headline + details -->
+      <div class="border-light grid grid-cols-1 border-t lg:grid-cols-2">
+        <!-- headline -->
+        <div class="border-light py-10 pr-3 lg:col-span-1 lg:border-r">
+          <h1 class="">{work.headline}</h1>
+        </div>
 
-    <!-- headline + details -->
-    <div class="border-light grid grid-cols-1 border-t lg:grid-cols-2">
-      <!-- headline -->
-      <div class="border-light py-10 pr-3 lg:col-span-1 lg:border-r">
-        <h1 class="">{work.headline}</h1>
-      </div>
-
-      <!-- summary -->
-      <div class="flex flex-col gap-5 py-6 pl-3 text-sm lg:col-span-1">
-        <div>
-          <p class="tiny-text mb-1">Summary</p>
-          <p>{Array.isArray(work.summary) && <PortableTextRenderer value={work.summary} />}</p>
+        <!-- summary -->
+        <div class="flex flex-col gap-5 py-6 pl-3 text-sm lg:col-span-1">
+          <div>
+            <p class="tiny-text mb-1">Summary</p>
+            <p>{Array.isArray(work.summary) && <PortableTextRenderer value={work.summary} />}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- details -->
-    <div class="border-light flex grid grid-cols-1 justify-between border-t text-sm md:grid-cols-2">
-      <!-- company -->
-      <div class="border-light py-6 pr-3 lg:border-r">
-        <p class="tiny-text mb-1">Company</p>
-        <p class="">{work.title}</p>
-      </div>
-      <!-- role + timeline -->
-      <div class="grid grid-cols-2 gap-3 pb-6 md:py-6 lg:pl-3">
-        <div>
-          <p class="tiny-text mb-1">Role</p>
-          <div class="">{work.role?.map((r: string) => <p>{r}</p>)}</div>
+      <!-- details -->
+      <div
+        class="border-light flex grid grid-cols-1 justify-between border-t text-sm md:grid-cols-2"
+      >
+        <!-- company -->
+        <div class="border-light py-6 pr-3 lg:border-r">
+          <p class="tiny-text mb-1">Company</p>
+          <p class="">{work.title}</p>
         </div>
-        <div>
-          <p class="tiny-text mb-1">Timeline</p>
-          <p class="">{work.timeline}</p>
+        <!-- role + timeline -->
+        <div class="grid grid-cols-2 gap-3 pb-6 md:py-6 lg:pl-3">
+          <div>
+            <p class="tiny-text mb-1">Role</p>
+            <div class="">{work.role?.map((r: string) => <p>{r}</p>)}</div>
+          </div>
+          <div>
+            <p class="tiny-text mb-1">Timeline</p>
+            <p class="">{work.timeline}</p>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- hero image -->
-    <div class="img-container mt-6 h-[50vh] w-full overflow-hidden">
+    <div data-reveal class="img-container mt-6 h-[50vh] w-full overflow-hidden">
       <img
         src={workImageUrl || ''}
         alt={work.image?.alt || ''}
@@ -142,7 +145,7 @@ let headerCount = 0;
           const isSectionHeader = isHeader;
 
           return (
-            <div class={containerClass}>
+            <div data-reveal class={containerClass}>
               <div class="container-custom-small">
                 {isSectionHeader && <hr class={borderClass} />}
 
@@ -188,7 +191,7 @@ let headerCount = 0;
         } else if (block._type === 'imageBlock') {
           const imageUrl = block.image ? urlFor(block.image)?.width(1200).url() : null;
           return (
-            <div class="container-custom-small">
+            <div data-reveal class="container-custom-small">
               <div class={headerRowClass}>
                 {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
               </div>
@@ -213,7 +216,7 @@ let headerCount = 0;
           };
 
           return (
-            <div class="container-custom-small">
+            <div data-reveal class="container-custom-small">
               <div class={headerRowClass}>
                 {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
               </div>

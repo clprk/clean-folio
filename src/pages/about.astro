@@ -34,12 +34,12 @@ const breakpoint = 'lg';
       <!-- top -->
       <div class="row-span-1 grid min-h-0 grid-rows-2 items-end gap-6">
         <!-- header -->
-        <div class="mb-2 grid grid-cols-2 gap-6 lg:mb-10">
+        <div data-reveal class="mb-2 grid grid-cols-2 gap-6 lg:mb-10">
           <div></div>
           <h1>Nice to meet you,</h1>
         </div>
         <!-- details -->
-        <div class="tiny-text grid grid-cols-4 gap-6">
+        <div data-reveal class="tiny-text grid grid-cols-4 gap-6">
           <p>02</p>
           <div></div>
           <p>Designer + Developer</p>
@@ -49,14 +49,14 @@ const breakpoint = 'lg';
       <!-- bottom -->
       <div class="grid min-h-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <!-- img -->
-        <div class="img-container col-span-1 aspect-[5/3] w-full lg:col-span-3">
+        <div data-reveal class="img-container col-span-1 aspect-[5/3] w-full lg:col-span-3">
           <img
             src="https://cdn.sanity.io/images/rnk0k1nk/production/bb4fbceeb5d300985534664bdb5f096c445bb149-857x1284.jpg"
             class="h-full w-full object-cover object-center transition-all"
           />
         </div>
         <!-- paragraph -->
-        <div class="col-span-1 flex flex-col justify-between gap-10 text-sm">
+        <div data-reveal class="col-span-1 flex flex-col justify-between gap-10 text-sm">
           <div class="flex flex-col gap-4">
             <p>
               I’m Ciel, a 2024 graduate from the University of Virginia, where I studied a blend of
@@ -91,7 +91,7 @@ const breakpoint = 'lg';
   <!-- Projects Section -->
   <section class="container-custom flex flex-col gap-8 md:gap-24">
     <!-- <h2>✦ Experience</h2> -->
-    <div class="flex flex-col gap-10">
+    <div data-reveal class="flex flex-col gap-10">
       {
         experiences.map((experience) => (
           <div class="border-light flex flex-col justify-between gap-4 border-t pt-4 md:flex-row">
