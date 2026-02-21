@@ -146,7 +146,58 @@ import '../styles/global.css';
               </defs>
             </svg>
           </a>
-          <h4 class="text-white">Built with &lt3 by Ciel</h4>
+          <!-- <h4 class="text-white">Built with &lt3 by Ciel</h4> -->
+          <style>
+            .heart-wrapper:hover .stack-popup {
+              opacity: 1;
+              visibility: visible;
+              transform: translateX(-50%) translateY(-4px);
+            }
+
+            .stack-popup {
+              transform: translateX(-50%) translateY(0px);
+            }
+          </style>
+          <h4 class="text-white">
+            Built with
+            <span class="heart-wrapper relative inline-block">
+              <span
+                class="heart hover:text-accent cursor-pointer italic transition-transform duration-200 hover:scale-125"
+                >&lt;3</span
+              >
+
+              <!-- Popup -->
+              <div
+                class="stack-popup border-light bg-dark pointer-events-none invisible absolute bottom-full left-[480%] z-100 mb-3 w-40 -translate-x-1/2 border p-3 opacity-0 transition-all duration-200"
+              >
+                <!-- Arrow -->
+                <div
+                  class="border-light bg-dark absolute -bottom-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-r border-b"
+                >
+                </div>
+
+                <ul class="flex flex-col gap-1.5">
+                  <li class="tiny-text flex items-center gap-2">
+                    <span>🚀</span> Astro
+                  </li>
+                  <li class="tiny-text flex items-center gap-2">
+                    <span>💙</span> Tailwind CSS
+                  </li>
+                  <li class="tiny-text flex items-center gap-2">
+                    <span>🔲</span> Sanity CMS
+                  </li>
+                  <li class="tiny-text flex items-center gap-2">
+                    <span>🔼</span> Vercel
+                  </li>
+                  <!-- <li class="tiny-text flex items-center gap-2">
+                    <span>⚛️</span> React
+                  </li> -->
+                  <!-- add/remove whatever you actually use -->
+                </ul>
+              </div>
+            </span>
+            by Ciel
+          </h4>
         </div>
         <!-- links -->
         <div class="flex basis-1/2 flex-col md:flex-row">
@@ -184,7 +235,6 @@ import '../styles/global.css';
 
 <script>
   import { gsap } from 'gsap';
-
   // displaying mobile menu
   document.addEventListener('DOMContentLoaded', () => {
     const menuButton = document.getElementById('menu-button');
@@ -224,7 +274,7 @@ import '../styles/global.css';
     if (!introLogo) return;
 
     // ── rotation ──────────────
-    const STEPS = 3;
+    const STEPS = 1;
     const STEP_DUR = 0.4;
     const STEP_GAP = 0.5;
     const rotState = { angle: 0 };
@@ -309,7 +359,11 @@ import '../styles/global.css';
 
       // reveal footer
       gsap.set(footer, { visibility: 'visible' });
-      gsap.fromTo(footer, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power1.out' });
+      gsap.fromTo(
+        footer,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, ease: 'power1.out', delay: 0.2 },
+      );
     }
   })();
 </script>
