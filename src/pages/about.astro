@@ -1,30 +1,25 @@
 ---
 import Layout from '../layouts/Base.astro';
 import { sanityClient } from 'sanity:client';
+import { urlFor, aboutQuery } from '../lib/sanity';
+import PortableTextRenderer from '../components/PortableTextRenderer.astro';
 
-// Define the type for experience
+const about = await sanityClient.fetch(aboutQuery);
+
 interface Experience {
   company: string;
   role: string;
   dates: string;
-  description?: string;
+  description: string;
 }
-
-const experiences: Experience[] = await sanityClient.fetch(`
-  *[_type == "experience"] | order(order asc) {
-    company,
-    role,
-    dates,
-    description
-  }
-`);
-
-const images = [
-  'https://cdn.sanity.io/images/rnk0k1nk/production/bb4fbceeb5d300985534664bdb5f096c445bb149-857x1284.jpg',
-];
 
 // can't decide if lg or xl as hero breakpoint looks better!!!
 const breakpoint = 'lg';
+
+// image url
+const profileImageUrl = about.profileImage
+  ? urlFor(about.profileImage)?.width(1600).height(900).url()
+  : null;
 ---
 
 <Layout>
@@ -36,52 +31,30 @@ const breakpoint = 'lg';
         <!-- header -->
         <div data-reveal class="mb-2 grid grid-cols-2 gap-6 lg:mb-10">
           <div></div>
-          <h1>Nice to meet you,</h1>
+          <h1>{about.header}</h1>
         </div>
         <!-- details -->
         <div data-reveal class="tiny-text grid grid-cols-4 gap-6">
-          <p>02</p>
+          <p>{about.leftText}</p>
           <div></div>
-          <p>Designer + Developer</p>
-          <p class="justify-self-end lg:justify-self-start">About me</p>
+          <p>{about.centerText}</p>
+          <p class="justify-self-end lg:justify-self-start">{about.rightText}</p>
         </div>
       </div>
       <!-- bottom -->
       <div class="grid min-h-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <!-- img -->
         <div data-reveal class="img-container col-span-1 aspect-[5/3] w-full lg:col-span-3">
-          <img
-            src="https://cdn.sanity.io/images/rnk0k1nk/production/33e1082c83990e9b1badb762fc8fb7325a86e40a-3024x4032.jpg"
-            class="h-full w-full object-cover object-center transition-all"
-          />
+          <img src={profileImageUrl} class="h-full w-full object-cover object-center" />
         </div>
         <!-- paragraph -->
         <div data-reveal class="col-span-1 flex flex-col justify-between gap-10 text-sm">
           <div class="flex flex-col gap-4">
-            <p>
-              I’m Ciel, a 2024 graduate from the University of Virginia, where I studied a blend of
-              computer science, psychology, and design.
-            </p>
-            <p>
-              Previously I’ve worked for a nonprofit, a startup, and an agency, where I worked on
-              feature launches, experimented with animation, and learned professional web
-              development.
-            </p>
-            <p>
-              Thanks for reading, and for visiting my page :) If you have any feedback, questions,
-              or ideas for collaboration, I’d love to hear from you!
-            </p>
+            {Array.isArray(about.summary) && <PortableTextRenderer value={about.summary} />}
           </div>
           <div class="md:hidden lg:block">
             <p class="tiny-text mb-2">Current Favorites:</p>
-            <ul>
-              <li>Books: The Design of Everyday Things</li>
-              <li>Shows: Jujutsu Kaisen</li>
-              <li>Games: Silent Hill F</li>
-              <li>Music: Radiohead, Oklou, Yerin Baek</li>
-              <li>Food: Rose Tteokbokki</li>
-              <li>Fashion: Skirts over pants, Yohji Yamamoto</li>
-            </ul>
+            {about.favorites.map((f: String) => <p>{f}</p>)}
           </div>
         </div>
       </div>
@@ -93,16 +66,14 @@ const breakpoint = 'lg';
     <!-- <h2>✦ Experience</h2> -->
     <div data-reveal class="flex flex-col gap-10">
       {
-        experiences.map((experience) => (
+        about.experience.map((e: any) => (
           <div class="border-light flex flex-col justify-between gap-4 border-t pt-4 md:flex-row">
             <div class="flex flex-col gap-4">
-              <p class="small-text leading-none">{experience.company}</p>
-              <h4>{experience.role}</h4>
-              {experience.description && (
-                <p class="text-sm text-gray-600">{experience.description}</p>
-              )}
+              <p class="small-text">{e.company}</p>
+              <h4>{e.role}</h4>
+              {e.description && <p class="small-text">{e.description}</p>}
             </div>
-            <p class="small-text leading-none">{experience.dates}</p>
+            <p class="small-text">{e.dates}</p>
           </div>
         ))
       }

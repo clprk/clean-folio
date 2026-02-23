@@ -38,6 +38,29 @@ export const indexQuery = `*[
   tags,
 }`;
 
+export const aboutQuery = `
+  *[_type == "about"][0]{
+    header,
+    leftText,
+    centerText,
+    rightText,
+    profileImage {
+        ...,
+        hotspot,
+        crop
+    },
+    summary,
+    favorites,
+    experience[] {
+        order,
+        company,
+        role,
+        dates,
+        description
+    },
+  }
+`;
+
 export const slugQuery = `{"work": *[_type == "work" && slug.current == $slug][0]{
     ...,
     body[] {

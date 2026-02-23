@@ -3,11 +3,10 @@ import Layout from '../layouts/Base.astro';
 import type { SanityDocument } from '@sanity/client';
 import { sanityClient } from 'sanity:client';
 import { urlFor, homeQuery, indexQuery } from '../lib/sanity';
+import PortableTextRenderer from '../components/PortableTextRenderer.astro';
 
-// const home = await sanityClient.fetch<SanityDocument[]>(homeQuery);
+const home = await sanityClient.fetch(homeQuery);
 const works = await sanityClient.fetch<SanityDocument[]>(indexQuery);
-
-// console.log(home);
 ---
 
 <Layout>
@@ -15,7 +14,7 @@ const works = await sanityClient.fetch<SanityDocument[]>(indexQuery);
     <div class="container-custom flex min-h-[34rem] flex-col">
       <!-- heading -->
       <div data-reveal class="flex flex-1 items-end lg:w-1/2">
-        <h1>I’m Ciel, and I bring ideas to life with design + code</h1>
+        <h1>{home.header}</h1>
       </div>
       <!-- summary -->
       <div data-reveal class="flex flex-1 items-end">
@@ -44,8 +43,7 @@ const works = await sanityClient.fetch<SanityDocument[]>(indexQuery);
           <!-- descr -->
           <div class="flex-1">
             <p>
-              With a background in computer science + psychology, I bridge the gap between design
-              vision and technical implementation.
+              {Array.isArray(home.description) && <PortableTextRenderer value={home.description} />}
             </p>
           </div>
         </div>

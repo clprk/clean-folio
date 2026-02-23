@@ -124,246 +124,228 @@ const resume = await sanityClient.fetch(resumeQuery);
     >
       <div class="container-custom flex w-full flex-col-reverse py-20 md:flex-row">
         <!-- credits -->
-        <div class="basis-1/2">
+        <ul class="basis-1/2">
           <!-- logo -->
-          <a href="../" class="group mb-6 flex inline-flex gap-4">
-            <svg
-              width="44"
-              height="44"
-              viewBox="0 0 44 44"
-              class="group-hover:text-accent max-h-8 text-white transition-[transform,color] duration-300 ease-out group-hover:rotate-[-60deg]"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clip-path="url(#clip0_104_190)">
-                <path
-                  d="M12.873 41.932L6.657 37.381L16.758 24.505L0.996 20.176L3.438 12.739L18.756 18.4L18.09 2.083H25.86L25.194 18.4L40.512 12.739L42.954 20.176L27.192 24.505L37.293 37.381L31.077 41.932L21.975 28.279L12.873 41.932Z"
-                  fill="currentColor"></path>
-              </g>
-              <defs>
-                <clipPath id="clip0_104_190">
-                  <rect width="44" height="44" fill="white"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-          </a>
-          <!-- <h4 class="text-white">Built with &lt3 by Ciel</h4> -->
-          <style>
-            .heart-wrapper:hover .stack-popup {
-              opacity: 1;
-              visibility: visible;
-              transform: translateX(-50%) translateY(-4px);
-            }
-
-            .stack-popup {
-              transform: translateX(-50%) translateY(0px);
-            }
-          </style>
-          <h4 class="text-white">
+          <li>
+            <a href="../" class="group mb-6 flex inline-flex gap-4">
+              <svg
+                width="44"
+                height="44"
+                viewBox="0 0 44 44"
+                class="group-hover:text-accent max-h-8 text-white transition-[transform,color] duration-300 ease-out group-hover:rotate-[-60deg]"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_104_190)">
+                  <path
+                    d="M12.873 41.932L6.657 37.381L16.758 24.505L0.996 20.176L3.438 12.739L18.756 18.4L18.09 2.083H25.86L25.194 18.4L40.512 12.739L42.954 20.176L27.192 24.505L37.293 37.381L31.077 41.932L21.975 28.279L12.873 41.932Z"
+                    fill="currentColor"></path>
+                </g>
+                <defs>
+                  <clipPath id="clip0_104_190">
+                    <rect width="44" height="44" fill="white"></rect>
+                  </clipPath>
+                </defs>
+              </svg>
+            </a>
+          </li>
+          <!-- built with <3 -->
+          <li>
             Built with
-            <span class="heart-wrapper relative inline-block">
+            <span class="group relative inline-block">
               <span
-                class="heart hover:text-accent cursor-pointer italic transition-transform duration-200 hover:scale-125"
+                class="hover:text-accent cursor-pointer italic transition-transform duration-200 hover:scale-125"
                 >&lt;3</span
               >
 
-              <!-- Popup -->
+              <!-- popup -->
               <div
-                class="stack-popup border-light bg-dark pointer-events-none invisible absolute bottom-full left-[480%] z-100 mb-3 w-40 -translate-x-1/2 border p-3 opacity-0 transition-all duration-200"
+                class="border-light bg-dark pointer-events-none invisible absolute bottom-full left-1/2 z-50 mb-3 w-40 -translate-x-1/2 translate-y-0 border p-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:-translate-y-1 group-hover:opacity-100"
               >
-                <!-- Arrow -->
+                <ul class="tiny-text !mt-0 flex flex-col gap-1.5 !pl-0">
+                  <li class="flex items-center gap-2">
+                    <span>🚀</span> Astro
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span>💙</span> Tailwind CSS
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span>🔲</span> Sanity CMS
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span>🟩</span> GSAP
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span>🔼</span> Vercel
+                  </li>
+                </ul>
+                <!-- lil arrow -->
                 <div
                   class="border-light bg-dark absolute -bottom-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-r border-b"
                 >
                 </div>
-
-                <ul class="flex flex-col gap-1.5">
-                  <li class="tiny-text flex items-center gap-2">
-                    <span>🚀</span> Astro
-                  </li>
-                  <li class="tiny-text flex items-center gap-2">
-                    <span>💙</span> Tailwind CSS
-                  </li>
-                  <li class="tiny-text flex items-center gap-2">
-                    <span>🔲</span> Sanity CMS
-                  </li>
-                  <li class="tiny-text flex items-center gap-2">
-                    <span>🟩</span> GSAP
-                  </li>
-                  <li class="tiny-text flex items-center gap-2">
-                    <span>🔼</span> Vercel
-                  </li>
-                </ul>
               </div>
             </span>
             by Ciel
-          </h4>
-        </div>
+          </li>
+        </ul>
         <!-- links -->
-        <div class="flex basis-1/2 flex-col md:flex-row">
+        <div class="flex basis-1/2 flex-col md:flex-row md:gap-6">
           <!-- contact -->
-          <div id="contact" class="mb-10 flex basis-2/3 flex-col gap-2">
-            <h3 class="text-white">Contact</h3>
-            <a href="mailto:cielcpark@gmail.com">
-              <h4>cielcpark@gmail.com</h4>
-            </a>
-            <h4>Washington DC</h4>
-            <h4 id="clock"></h4>
-          </div>
+          <ul id="contact" class="mb-10 flex basis-2/3 flex-col gap-2">
+            <h3>Contact</h3>
+            <li>
+              <a href="mailto:cielcpark@gmail.com"> Email </a>
+            </li>
+            <li>Washington DC</li>
+            <li id="clock"></li>
+          </ul>
           <!-- elsewhere -->
-          <div class="mb-10 flex basis-1/3 flex-col gap-2">
+          <ul class="mb-10 flex basis-1/3 flex-col gap-2">
             <h3 class="text-white">Elsewhere</h3>
-            <a href="https://www.linkedin.com/in/clprk/">
-              <h4>LinkedIn</h4>
-            </a>
-            <a href="https://www.figma.com/@clprk">
-              <h4>Figma</h4>
-            </a>
-            <a href="https://github.com/clprk">
-              <h4>GitHub</h4>
-            </a>
-            <a href="https://codepen.io/clprk">
-              <h4>CodePen</h4>
-            </a>
-          </div>
+            <li><a href="https://www.linkedin.com/in/clprk/"> LinkedIn </a></li>
+            <li><a href="https://www.figma.com/@clprk"> Figma </a></li>
+            <li><a href="https://github.com/clprk"> GitHub </a></li>
+            <li><a href="https://codepen.io/clprk"> CodePen </a></li>
+          </ul>
         </div>
       </div>
     </footer>
   </body>
   <!-- <Texture /> -->
+
+  <script>
+    import { gsap } from 'gsap';
+    // displaying mobile menu
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuButton = document.getElementById('menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const navLinks = document.getElementById('nav-links');
+
+      if (menuButton && mobileMenu) {
+        menuButton.addEventListener('click', () => {
+          if (mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.remove('hidden');
+          } else {
+            mobileMenu.classList.add('hidden');
+          }
+        });
+      }
+    });
+
+    // clock in footer
+    var clockElement = document.getElementById('clock');
+    function clock() {
+      if (clockElement) {
+        clockElement.textContent = new Date().toLocaleTimeString();
+      }
+    }
+    setInterval(clock, 1000);
+
+    // ── Intro animation ──────────────────────────────────────
+    (function () {
+      gsap.defaults({ ease: 'none' });
+
+      const introLogo = document.getElementById('intro-logo');
+      const header = document.getElementById('site-header');
+      const footer = document.getElementById('site-footer');
+      const navLogoLink = document.getElementById('nav-logo-link');
+      const pageContent = document.getElementById('page-content');
+
+      if (!introLogo) return;
+
+      // ── rotation ──────────────
+      const STEPS = 1;
+      const STEP_DUR = 0.4;
+      const STEP_GAP = 0.5;
+      const rotState = { angle: 0 };
+      const rotTL = gsap.timeline();
+
+      for (let i = 1; i <= STEPS; i++) {
+        rotTL.to(rotState, {
+          angle: i * 60,
+          duration: STEP_DUR,
+          ease: 'power2.out',
+          delay: i === 1 ? 0 : STEP_GAP - STEP_DUR,
+          onUpdate() {
+            introLogo.style.transform = `translate(-50%, -50%) rotate(${rotState.angle}deg)`;
+          },
+        });
+      }
+
+      // ── logo goes to position ─────────────────
+      const ROTATE_END = STEPS * STEP_GAP + 0.06;
+
+      rotTL.add(() => {
+        const logoRect = introLogo.getBoundingClientRect();
+        const startCX = logoRect.left + logoRect.width / 2;
+        const startCY = logoRect.top + logoRect.height / 2;
+
+        // Target the CENTRE of the nav logo, not its top-left
+        const targetRect = navLogoLink
+          ? navLogoLink.getBoundingClientRect()
+          : { left: 40, top: 8, width: 32, height: 32 };
+
+        const targetCX = targetRect.left + targetRect.width / 2;
+        const targetCY = targetRect.top + targetRect.height / 2;
+
+        // Anchor the intro logo by its centre
+        gsap.set(introLogo, {
+          top: startCY - 22, // correct: half of 44px
+          left: startCX - 22,
+          xPercent: 0,
+          yPercent: 0,
+          rotation: 0,
+        });
+
+        // Fly to nav centre, scale down to match max-h-8 (32px = 32/44 ≈ 0.727)
+        gsap.to(introLogo, {
+          top: targetCY - 22, // keep centred during flight
+          left: targetCX - 22,
+          scale: 32 / 44, // shrinks the div AND the SVG together
+          duration: 0.5,
+          ease: 'power2.inOut',
+          onComplete: revealPage,
+        });
+      }, ROTATE_END);
+
+      // ── reveal page ───────────────────
+      function revealPage() {
+        // hide the floating intro logo — the real nav logo takes over
+        // gsap.set(introLogo, { display: 'none', duration: 0.5, ease: 'power1.out' });
+        gsap.to(introLogo, {
+          opacity: 0,
+          duration: 0.3,
+          delay: 0.4,
+          ease: 'none',
+          onComplete: () => {
+            gsap.set(introLogo, { display: 'none' });
+          },
+        });
+
+        // reveal header
+        gsap.set(header, { visibility: 'visible' });
+        gsap.fromTo(header, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power1.out' });
+
+        // Reveal page content
+        gsap.set(pageContent, { visibility: 'visible', opacity: 1 });
+        gsap.from('[data-reveal]', {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          ease: 'power1.out',
+          stagger: 0.12,
+          delay: 0.15,
+        });
+
+        // reveal footer
+        gsap.set(footer, { visibility: 'visible' });
+        gsap.fromTo(
+          footer,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.5, ease: 'power1.out', delay: 0.2 },
+        );
+      }
+    })();
+  </script>
 </html>
-
-<script>
-  import { gsap } from 'gsap';
-  // displaying mobile menu
-  document.addEventListener('DOMContentLoaded', () => {
-    const menuButton = document.getElementById('menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const navLinks = document.getElementById('nav-links');
-
-    if (menuButton && mobileMenu) {
-      menuButton.addEventListener('click', () => {
-        if (mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.remove('hidden');
-        } else {
-          mobileMenu.classList.add('hidden');
-        }
-      });
-    }
-  });
-
-  // clock in footer
-  var clockElement = document.getElementById('clock');
-  function clock() {
-    if (clockElement) {
-      clockElement.textContent = new Date().toLocaleTimeString();
-    }
-  }
-  setInterval(clock, 1000);
-
-  // ── Intro animation ──────────────────────────────────────
-  (function () {
-    gsap.defaults({ ease: 'none' });
-
-    const introLogo = document.getElementById('intro-logo');
-    const header = document.getElementById('site-header');
-    const footer = document.getElementById('site-footer');
-    const navLogoLink = document.getElementById('nav-logo-link');
-    const pageContent = document.getElementById('page-content');
-
-    if (!introLogo) return;
-
-    // ── rotation ──────────────
-    const STEPS = 1;
-    const STEP_DUR = 0.4;
-    const STEP_GAP = 0.5;
-    const rotState = { angle: 0 };
-    const rotTL = gsap.timeline();
-
-    for (let i = 1; i <= STEPS; i++) {
-      rotTL.to(rotState, {
-        angle: i * 60,
-        duration: STEP_DUR,
-        ease: 'power2.out',
-        delay: i === 1 ? 0 : STEP_GAP - STEP_DUR,
-        onUpdate() {
-          introLogo.style.transform = `translate(-50%, -50%) rotate(${rotState.angle}deg)`;
-        },
-      });
-    }
-
-    // ── logo goes to position ─────────────────
-    const ROTATE_END = STEPS * STEP_GAP + 0.06;
-
-    rotTL.add(() => {
-      const logoRect = introLogo.getBoundingClientRect();
-      const startCX = logoRect.left + logoRect.width / 2;
-      const startCY = logoRect.top + logoRect.height / 2;
-
-      // Target the CENTRE of the nav logo, not its top-left
-      const targetRect = navLogoLink
-        ? navLogoLink.getBoundingClientRect()
-        : { left: 40, top: 8, width: 32, height: 32 };
-
-      const targetCX = targetRect.left + targetRect.width / 2;
-      const targetCY = targetRect.top + targetRect.height / 2;
-
-      // Anchor the intro logo by its centre
-      gsap.set(introLogo, {
-        top: startCY - 22, // correct: half of 44px
-        left: startCX - 22,
-        xPercent: 0,
-        yPercent: 0,
-        rotation: 0,
-      });
-
-      // Fly to nav centre, scale down to match max-h-8 (32px = 32/44 ≈ 0.727)
-      gsap.to(introLogo, {
-        top: targetCY - 22, // keep centred during flight
-        left: targetCX - 22,
-        scale: 32 / 44, // shrinks the div AND the SVG together
-        duration: 0.5,
-        ease: 'power2.inOut',
-        onComplete: revealPage,
-      });
-    }, ROTATE_END);
-
-    // ── reveal page ───────────────────
-    function revealPage() {
-      // hide the floating intro logo — the real nav logo takes over
-      // gsap.set(introLogo, { display: 'none', duration: 0.5, ease: 'power1.out' });
-      gsap.to(introLogo, {
-        opacity: 0,
-        duration: 0.3,
-        delay: 0.4,
-        ease: 'none',
-        onComplete: () => {
-          gsap.set(introLogo, { display: 'none' });
-        },
-      });
-
-      // reveal header
-      gsap.set(header, { visibility: 'visible' });
-      gsap.fromTo(header, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power1.out' });
-
-      // Reveal page content
-      gsap.set(pageContent, { visibility: 'visible', opacity: 1 });
-      gsap.from('[data-reveal]', {
-        opacity: 0,
-        y: 16,
-        duration: 0.4,
-        ease: 'power1.out',
-        stagger: 0.12,
-        delay: 0.15,
-      });
-
-      // reveal footer
-      gsap.set(footer, { visibility: 'visible' });
-      gsap.fromTo(
-        footer,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.5, ease: 'power1.out', delay: 0.2 },
-      );
-    }
-  })();
-</script>

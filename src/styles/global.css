@@ -57,8 +57,13 @@ h2 {
 h3 {
   @apply mb-3 text-lg uppercase;
 }
-/* resume role + footer body */
+/* resume role */
 h4 {
+  @apply font-mono text-lg;
+}
+/* nav text */
+nav,
+footer {
   @apply font-mono;
 }
 
@@ -107,8 +112,9 @@ ol ol {
   @apply text-sm uppercase;
 }
 .tiny-text {
-  @apply font-mono text-[0.7rem] tracking-widest uppercase;
+  @apply font-mono text-xs tracking-widest uppercase;
 }
+
 /* .nav-link {
   @apply mb-3 font-mono uppercase;
 } */
