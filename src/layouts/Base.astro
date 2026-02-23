@@ -1,6 +1,10 @@
 ---
 import Texture from '../components/Texture.astro';
+import { sanityClient } from 'sanity:client';
 import '../styles/global.css';
+import { resumeQuery } from '../lib/sanity';
+
+const resume = await sanityClient.fetch(resumeQuery);
 ---
 
 <!doctype html>
@@ -100,10 +104,7 @@ import '../styles/global.css';
             >
               <a href="../">Work</a>
               <a href="../about">About</a>
-              <a
-                href="https://docs.google.com/document/d/1WYPBiH9gtH5_TwxMKfXFyviGZQjsrY-B/edit?usp=sharing&ouid=102465668666867636372&rtpof=true&sd=true"
-                >Resume</a
-              >
+              {resume?.resumeUrl && <a href={resume.resumeUrl}>Resume</a>}
             </div>
             <a href="#contact" class="justify-self-end">Contact</a>
           </div>
@@ -187,12 +188,11 @@ import '../styles/global.css';
                     <span>🔲</span> Sanity CMS
                   </li>
                   <li class="tiny-text flex items-center gap-2">
+                    <span>🟩</span> GSAP
+                  </li>
+                  <li class="tiny-text flex items-center gap-2">
                     <span>🔼</span> Vercel
                   </li>
-                  <!-- <li class="tiny-text flex items-center gap-2">
-                    <span>⚛️</span> React
-                  </li> -->
-                  <!-- add/remove whatever you actually use -->
                 </ul>
               </div>
             </span>

@@ -2,32 +2,12 @@
 import Layout from '../layouts/Base.astro';
 import type { SanityDocument } from '@sanity/client';
 import { sanityClient } from 'sanity:client';
-import imageUrlBuilder from '@sanity/image-url';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { urlFor, homeQuery, indexQuery } from '../lib/sanity';
 
-const builder = imageUrlBuilder(sanityClient);
+// const home = await sanityClient.fetch<SanityDocument[]>(homeQuery);
+const works = await sanityClient.fetch<SanityDocument[]>(indexQuery);
 
-function urlFor(source: SanityImageSource) {
-  return builder.image(source);
-}
-
-const WORKS_QUERY = `*[
-  _type == "work"
-  && defined(slug.current)
-]|order(order asc)[0...12]{
-  _id, 
-  title, 
-  slug, 
-  description,
-  image {
-    ...,
-    hotspot,
-    crop
-  },
-  tags,
-}`;
-
-const works = await sanityClient.fetch<SanityDocument[]>(WORKS_QUERY);
+// console.log(home);
 ---
 
 <Layout>
