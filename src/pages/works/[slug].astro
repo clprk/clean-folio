@@ -5,7 +5,9 @@ import { sanityClient } from 'sanity:client';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import PortableTextRenderer from '../../components/PortableTextRenderer.astro';
+import slugify from 'slugify';
 
+// fetch current work data
 const WORK_QUERY = `*[_type == "work" && slug.current == $slug][0]{
   ...,
   body[] {
@@ -36,9 +38,9 @@ const WORK_QUERY = `*[_type == "work" && slug.current == $slug][0]{
     }
   }
 }`;
-
 const work = await sanityClient.fetch<SanityDocument>(WORK_QUERY, Astro.params);
 
+// generate static paths for all works
 export async function getStaticPaths() {
   const SLUGS_QUERY = `*[_type == "work" && defined(slug.current)]{
     "params": {"slug": slug.current}
@@ -46,221 +48,309 @@ export async function getStaticPaths() {
   return await sanityClient.fetch(SLUGS_QUERY);
 }
 
+// fetch next work page
+const ALL_WORKS_QUERY = `
+  *[_type == "work" && defined(slug.current)]
+  | order(order asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    headline,
+    order
+  }
+`;
+
+const allWorks = await sanityClient.fetch(ALL_WORKS_QUERY);
+const currentIndex = allWorks.findIndex((w: any) => w.slug === Astro.params['slug']);
+const nextWork = currentIndex !== -1 ? allWorks[(currentIndex + 1) % allWorks.length] : null;
+
+// image url
 const { projectId, dataset } = sanityClient.config();
 const urlFor = (source: SanityImageSource) =>
   projectId && dataset ? imageUrlBuilder({ projectId, dataset }).image(source) : null;
 const workImageUrl = work.image ? urlFor(work.image)?.width(1600).height(900).url() : null;
 
+// heading section stuff
 let headerCount = 0;
+
+const headings =
+  work.body
+    ?.filter((block: any) => block._type === 'textBlock' && block.header)
+    .map((block: any, index: number) => {
+      const slug = slugify(block.heading || `section-${index}`, {
+        lower: true,
+        strict: true,
+      });
+
+      return {
+        title: block.heading,
+        slug,
+        number: String(index + 1).padStart(2, '0'),
+      };
+    }) || [];
 ---
 
 <Layout>
-  <!-- ── hero -->
-  <section class="container-custom-small">
-    <!-- tags -->
-    <div data-reveal class="flex items-center gap-2 py-3">
-      {
-        work.tags?.map((tag: string, i: number) => (
-          <span class="tiny-text">
-            {tag}
-            {i < work.tags.length - 1 && '✦'}
-          </span>
-        ))
-      }
-    </div>
-    <div data-reveal>
-      <!-- headline + details -->
-      <div class="border-light grid grid-cols-1 border-t lg:grid-cols-2">
-        <!-- headline -->
-        <div class="border-light py-10 pr-3 lg:col-span-1 lg:border-r">
-          <h1 class="">{work.headline}</h1>
-        </div>
-
-        <!-- summary -->
-        <div class="flex flex-col gap-5 py-6 pl-3 text-sm lg:col-span-1">
-          <div>
-            <p class="tiny-text mb-1">Summary</p>
-            <p>{Array.isArray(work.summary) && <PortableTextRenderer value={work.summary} />}</p>
-          </div>
-        </div>
-      </div>
-      <!-- details -->
-      <div
-        class="border-light flex grid grid-cols-1 justify-between border-t text-sm md:grid-cols-2"
-      >
-        <!-- company -->
-        <div class="border-light py-6 pr-3 lg:border-r">
-          <p class="tiny-text mb-1">Company</p>
-          <p class="">{work.title}</p>
-        </div>
-        <!-- role + timeline -->
-        <div class="grid grid-cols-2 gap-3 pb-6 md:py-6 lg:pl-3">
-          <div>
-            <p class="tiny-text mb-1">Role</p>
-            <div class="">{work.role?.map((r: string) => <p>{r}</p>)}</div>
-          </div>
-          <div>
-            <p class="tiny-text mb-1">Timeline</p>
-            <p class="">{work.timeline}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- hero image -->
-    <div data-reveal class="img-container mt-6 h-[50vh] w-full overflow-hidden">
-      <img
-        src={workImageUrl || ''}
-        alt={work.image?.alt || ''}
-        class="h-full w-full object-cover"
-        style="filter: grayscale(15%) contrast(1.05);"
-      />
-    </div>
-  </section>
-
-  <!-- ── BODY ───────────────────────────────────────── -->
-  <section class="mt-20 flex flex-col gap-20">
+  <section class=".container-custom-wrapper relative">
+    <!-- toc -->
     {
-      work.body?.map((block: any) => {
-        const isDark = block.dark;
-        const isHeader = block.header;
-        const hasHeading = !!block.heading;
+      headings.length > 0 && (
+        <aside class="sticky top-18 z-100 hidden h-0 px-2 md:px-4 xl:block">
+          <nav>
+            <ul class="small-text space-y-4">
+              <li>
+                <a href="#overview">
+                  <span class="text-accent mr-2">00</span>
+                  Overview
+                </a>
+              </li>
+              {headings.map((h: { slug: string; number: string; title: string }) => (
+                <li>
+                  <a href={`#${h.slug}`}>
+                    <span class="text-accent mr-2">{h.number}</span>
+                    {h.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      )
+    }
 
-        const headerIndex = isHeader ? ++headerCount : null;
+    <!-- hero section -->
+    <section id="overview" class="container-custom-small">
+      <!-- tags -->
+      <div data-reveal class="flex items-center gap-2 py-3">
+        {
+          work.tags?.map((tag: string, i: number) => (
+            <span class="tiny-text">
+              {tag}
+              {i < work.tags.length - 1 && '✦'}
+            </span>
+          ))
+        }
+      </div>
+      <div data-reveal>
+        <!-- headline + details -->
+        <div class="border-light grid grid-cols-1 border-t lg:grid-cols-2">
+          <!-- headline -->
+          <div class="border-light py-10 pr-3 lg:col-span-1 lg:border-r">
+            <h1 class="">{work.headline}</h1>
+          </div>
 
-        const containerClass = [isDark ? 'bg-dark py-20 text-white' : '', isHeader ? 'mt-10' : '']
-          .filter(Boolean)
-          .join(' ');
+          <!-- summary -->
+          <div class="flex flex-col gap-5 py-6 pl-3 text-sm lg:col-span-1">
+            <div>
+              <p class="tiny-text mb-1">Summary</p>
+              <p>{Array.isArray(work.summary) && <PortableTextRenderer value={work.summary} />}</p>
+            </div>
+          </div>
+        </div>
+        <!-- details -->
+        <div
+          class="border-light flex grid grid-cols-1 justify-between border-t text-sm md:grid-cols-2"
+        >
+          <!-- company -->
+          <div class="border-light py-6 pr-3 lg:border-r">
+            <p class="tiny-text mb-1">Company</p>
+            <p class="">{work.title}</p>
+          </div>
+          <!-- role + timeline -->
+          <div class="grid grid-cols-2 gap-3 pb-6 md:py-6 lg:pl-3">
+            <div>
+              <p class="tiny-text mb-1">Role</p>
+              <div class="">{work.role?.map((r: string) => <p>{r}</p>)}</div>
+            </div>
+            <div>
+              <p class="tiny-text mb-1">Timeline</p>
+              <p class="">{work.timeline}</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        const headerRowClass = [
-          isDark ? 'text-white' : 'text-dark',
-          isHeader ? 'mb-2 flex items-start gap-6' : 'grid grid-cols-1 gap-10 md:grid-cols-12',
-        ].join(' ');
+      <!-- hero image -->
+      <div data-reveal class="img-container mt-6 h-[50vh] w-full overflow-hidden">
+        <img
+          src={workImageUrl || ''}
+          alt={work.image?.alt || ''}
+          class="h-full w-full object-cover"
+          style="filter: grayscale(15%) contrast(1.05);"
+        />
+      </div>
+    </section>
 
-        const borderClass = 'border-light mb-6';
-        const num = headerIndex ? String(headerIndex).padStart(2, '0') : null;
+    <!-- body sections -->
+    <section class="mt-20 flex flex-col gap-20">
+      {
+        work.body?.map((block: any) => {
+          const isDark = block.dark;
+          const isHeader = block.header;
+          const hasHeading = !!block.heading;
 
-        /* ── TEXT BLOCK ── */
-        if (block._type === 'textBlock') {
-          const isSectionHeader = isHeader;
+          const headerIndex = isHeader ? ++headerCount : null;
 
-          return (
-            <div data-reveal class={containerClass}>
-              <div class="container-custom-small">
-                {isSectionHeader && <hr class={borderClass} />}
+          const containerClass = [isDark ? 'bg-dark py-20 text-white' : '', isHeader ? 'mt-10' : '']
+            .filter(Boolean)
+            .join(' ');
 
-                {isSectionHeader ? (
-                  /* ── HEADER STYLE TEXT BLOCK ── */
-                  <>
+          const headerRowClass = [
+            isDark ? 'text-white' : 'text-dark',
+            isHeader ? 'mb-2 flex items-start gap-6' : 'grid grid-cols-1 gap-10 md:grid-cols-12',
+          ].join(' ');
+          const borderClass = 'border-light mb-6';
+          const num = headerIndex ? String(headerIndex).padStart(2, '0') : null;
+
+          /* TEXT BLOCK */
+          if (block._type === 'textBlock') {
+            const isSectionHeader = isHeader;
+
+            return (
+              <div data-reveal class={containerClass}>
+                <div class="container-custom-small">
+                  {isSectionHeader && <hr class={borderClass} />}
+
+                  {isSectionHeader ? (
+                    /* HEADER STYLE TEXT BLOCK */
+                    <>
+                      <div class={headerRowClass}>
+                        <span class="text-accent small-text mt-1 leading-none">{num}</span>
+                        {/* {hasHeading && <h2 class="leading-none">{block.heading}</h2>} */}
+                        {hasHeading && (
+                          <h2
+                            id={slugify(block.heading || '', { lower: true, strict: true })}
+                            class="scroll-mt-32 leading-none"
+                          >
+                            {block.heading}
+                          </h2>
+                        )}
+                      </div>
+
+                      {block.content && <PortableTextRenderer value={block.content} />}
+                    </>
+                  ) : (
+                    /* STANDARD TEXT BLOCK */
+
                     <div class={headerRowClass}>
-                      <span class="text-accent small-text mt-1 leading-none">{num}</span>
-                      {hasHeading && <h2 class="leading-none">{block.heading}</h2>}
+                      {hasHeading && (
+                        <div class="md:col-span-3">
+                          <h3 class={isDark ? 'text-white' : 'text-dark'}>{block.heading}</h3>
+                        </div>
+                      )}
+
+                      {block.content && (
+                        <div
+                          class={[
+                            hasHeading ? 'md:col-span-9' : 'md:col-span-12',
+                            isDark ? 'text-white' : 'text-gray',
+                          ]
+                            .filter(Boolean)
+                            .join(' ')}
+                        >
+                          <PortableTextRenderer value={block.content} />
+                        </div>
+                      )}
                     </div>
+                  )}
+                </div>
+              </div>
+            );
 
-                    {block.content && <PortableTextRenderer value={block.content} />}
-                  </>
-                ) : (
-                  /* ── STANDARD TEXT BLOCK ── */
+            /* IMAGE BLOCK */
+          } else if (block._type === 'imageBlock') {
+            const imageUrl = block.image ? urlFor(block.image)?.width(1200).url() : null;
+            return (
+              <div data-reveal class="container-custom-small">
+                <div class={headerRowClass}>
+                  {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
+                </div>
 
-                  <div class={headerRowClass}>
-                    {hasHeading && (
-                      <div class="md:col-span-3">
-                        <h3 class={isDark ? 'text-white' : 'text-dark'}>{block.heading}</h3>
-                      </div>
-                    )}
-
-                    {block.content && (
-                      <div
-                        class={[
-                          hasHeading ? 'md:col-span-9' : 'md:col-span-12',
-                          isDark ? 'text-white' : 'text-gray',
-                        ]
-                          .filter(Boolean)
-                          .join(' ')}
-                      >
-                        <PortableTextRenderer value={block.content} />
-                      </div>
-                    )}
-                  </div>
+                {imageUrl && (
+                  <figure>
+                    <div class="img-container">
+                      <img src={imageUrl} alt={block.image?.alt || ''} class="w-full" />
+                    </div>
+                    {block.caption && <figcaption>{block.caption}</figcaption>}
+                  </figure>
                 )}
               </div>
-            </div>
-          );
+            );
 
-          /* ── IMAGE BLOCK ── */
-        } else if (block._type === 'imageBlock') {
-          const imageUrl = block.image ? urlFor(block.image)?.width(1200).url() : null;
-          return (
-            <div data-reveal class="container-custom-small">
-              <div class={headerRowClass}>
-                {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
-              </div>
+            /* GRID BLOCK */
+          } else if (block._type === 'gridBlock') {
+            const colMap = {
+              '2': 'grid-cols-1 md:grid-cols-2',
+              '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+              '4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+            };
 
-              {imageUrl && (
-                <figure>
-                  <div class="img-container">
-                    <img src={imageUrl} alt={block.image?.alt || ''} class="w-full" />
-                  </div>
-                  {block.caption && <figcaption>{block.caption}</figcaption>}
-                </figure>
-              )}
-            </div>
-          );
+            return (
+              <div data-reveal class="container-custom-small">
+                <div class={headerRowClass}>
+                  {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
+                </div>
 
-          /* ── GRID BLOCK ── */
-        } else if (block._type === 'gridBlock') {
-          const colMap = {
-            '2': 'grid-cols-1 md:grid-cols-2',
-            '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-            '4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-          };
+                {/* <hr class={borderClass} /> */}
 
-          return (
-            <div data-reveal class="container-custom-small">
-              <div class={headerRowClass}>
-                {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
-              </div>
+                {/* grid */}
+                <div
+                  class={`grid gap-12 md:gap-4 ${colMap[block.columns as '2' | '3' | '4'] || 'grid-cols-1'}`}
+                >
+                  {block.items?.map((item: any) => (
+                    // grid item
+                    <div class="">
+                      {item.subtitle && <p class="small-text mb-4">{item.subtitle}</p>}
 
-              {/* <hr class={borderClass} /> */}
+                      {item.type === 'image' && item.image && (
+                        <figure>
+                          <div class="img-container">
+                            <img
+                              src={urlFor(item.image)?.width(600).url() || ''}
+                              alt={item.image.alt || ''}
+                              class="w-full"
+                            />
+                          </div>
+                          {item.caption && <figcaption>{item.caption}</figcaption>}
+                        </figure>
+                      )}
 
-              {/* grid */}
-              <div
-                class={`grid gap-12 md:gap-4 ${colMap[block.columns as '2' | '3' | '4'] || 'grid-cols-1'}`}
-              >
-                {block.items?.map((item: any) => (
-                  // grid item
-                  <div class="">
-                    {item.subtitle && <p class="small-text mb-4">{item.subtitle}</p>}
-
-                    {item.type === 'image' && item.image && (
-                      <figure>
-                        <div class="img-container">
-                          <img
-                            src={urlFor(item.image)?.width(600).url() || ''}
-                            alt={item.image.alt || ''}
-                            class="w-full"
-                          />
+                      {item.type === 'text' && item.content && (
+                        // block body
+                        <div>
+                          <PortableTextRenderer value={item.content} />
+                          {item.caption && <p class="mt-4 text-left">{item.caption}</p>}
                         </div>
-                        {item.caption && <figcaption>{item.caption}</figcaption>}
-                      </figure>
-                    )}
-
-                    {item.type === 'text' && item.content && (
-                      // block body
-                      <div>
-                        <PortableTextRenderer value={item.content} />
-                        {item.caption && <p class="mt-4 text-left">{item.caption}</p>}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          );
-        }
+            );
+          }
 
-        return null;
-      })
-    }
+          return null;
+        })
+      }
+      <!-- next work section -->
+      {
+        nextWork && (
+          <section class="container-custom-small mt-10">
+            <div class="border-light flex items-center justify-between gap-6 border-t pt-6">
+              <div>
+                <p class="tiny-text mb-2">Next Project</p>
+                <a href={`/works/${nextWork.slug}`} class="group inline-block">
+                  <h2 class="transition-transform group-hover:translate-x-2">
+                    {nextWork.headline}
+                  </h2>
+                </a>
+              </div>
+
+              <div class="text-accent">→</div>
+            </div>
+          </section>
+        )
+      }
+    </section>
   </section>
 </Layout>

@@ -93,6 +93,9 @@ ol ol {
 .container-custom {
   @apply mx-auto max-w-[120rem] px-2 md:px-4;
 }
+.container-custom-wrapper {
+  @apply mx-auto max-w-[120rem];
+}
 .container-custom-small {
   @apply mx-auto w-full max-w-[52rem] px-4;
 }
