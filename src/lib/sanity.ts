@@ -67,9 +67,11 @@ export const slugQuery = `{"work": *[_type == "work" && slug.current == $slug][0
     _type,
     _type == "imageBlock" => {
         heading,
+        mediaType,
         image,
         caption,
-        dark
+        dark,
+        video
     },
     _type == "textBlock" => {
         heading,

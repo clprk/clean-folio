@@ -217,21 +217,46 @@ const colMap: Record<string, string> = {
 
             /* IMAGE BLOCK */
           } else if (block._type === 'imageBlock') {
-            const imageUrl = block.image ? urlFor(block.image)?.width(1200).url() : null;
+            // const imageUrl = block.image ? urlFor(block.image)?.width(1200).url() : null;
+            // return (
+            //   <div data-reveal class="container-custom-small">
+            //     <div class={headerRowClass}>
+            //       {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
+            //     </div>
+
+            //     {imageUrl && (
+            //       <figure>
+            //         <div class="img-container">
+            //           <img src={imageUrl} alt={block.image?.alt || ''} class="w-full" />
+            //         </div>
+            //         {block.caption && <figcaption>{block.caption}</figcaption>}
+            //       </figure>
+            //     )}
+            //   </div>
+            // );
+            const isVideo = block.mediaType === 'video';
+            const imageUrl =
+              !isVideo && block.image ? urlFor(block.image)?.width(1200).url() : null;
+            const videoUrl = isVideo ? block.video : null;
+
             return (
               <div data-reveal class="container-custom-small">
                 <div class={headerRowClass}>
                   {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
                 </div>
 
-                {imageUrl && (
-                  <figure>
-                    <div class="img-container">
+                <figure>
+                  <div class="img-container">
+                    {isVideo ? (
+                      <video autoplay loop muted playsinline class="w-full">
+                        <source src={videoUrl} />
+                      </video>
+                    ) : imageUrl ? (
                       <img src={imageUrl} alt={block.image?.alt || ''} class="w-full" />
-                    </div>
-                    {block.caption && <figcaption>{block.caption}</figcaption>}
-                  </figure>
-                )}
+                    ) : null}
+                  </div>
+                  {block.caption && <figcaption>{block.caption}</figcaption>}
+                </figure>
               </div>
             );
 
