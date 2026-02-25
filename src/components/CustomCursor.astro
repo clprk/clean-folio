@@ -6,35 +6,37 @@
 <script>
   const cursor = document.getElementById('custom-cursor');
 
-  document.addEventListener('mousemove', (e) => {
-    if (cursor) {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
-    }
-  });
-
-  const links = document.querySelectorAll('a');
-  links.forEach((target) => {
-    target.style.cursor = 'none';
-    target.addEventListener('mouseenter', () => {
+  if (window.matchMedia('(min-width: 768px)').matches) {
+    document.addEventListener('mousemove', (e) => {
       if (cursor) {
-        cursor.classList.add('scale-200');
-        cursor.classList.add('mix-blend-difference');
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
       }
     });
-    target.addEventListener('mouseleave', () => {
-      if (cursor) {
-        cursor.classList.remove('scale-200');
-        cursor.classList.remove('mix-blend-difference');
-      }
+
+    const links = document.querySelectorAll('a');
+    links.forEach((target) => {
+      target.style.cursor = 'none';
+      target.addEventListener('mouseenter', () => {
+        if (cursor) {
+          cursor.classList.add('scale-200');
+          cursor.classList.add('mix-blend-difference');
+        }
+      });
+      target.addEventListener('mouseleave', () => {
+        if (cursor) {
+          cursor.classList.remove('scale-200');
+          cursor.classList.remove('mix-blend-difference');
+        }
+      });
     });
-  });
 
-  document.addEventListener('mouseleave', () => {
-    if (cursor) cursor.style.opacity = '0';
-  });
+    document.addEventListener('mouseleave', () => {
+      if (cursor) cursor.style.opacity = '0';
+    });
 
-  document.addEventListener('mouseenter', () => {
-    if (cursor) cursor.style.opacity = '1';
-  });
+    document.addEventListener('mouseenter', () => {
+      if (cursor) cursor.style.opacity = '1';
+    });
+  }
 </script>

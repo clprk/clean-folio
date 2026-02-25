@@ -71,12 +71,12 @@ a {
   @apply font-mono italic ease-in-out;
 }
 a:hover {
-  @apply text-accent;
+  @apply text-accent md:cursor-none;
   /* not-italic */
 }
 
 button {
-  @apply cursor-pointer font-mono uppercase;
+  @apply font-mono uppercase;
 }
 button:hover {
   @apply text-accent;
