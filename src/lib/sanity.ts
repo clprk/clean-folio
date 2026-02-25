@@ -18,28 +18,16 @@ export const homeQuery = `
     *[_type == "home"][0]{
     header,
     currentRole,
+    currentCompany,
+    currentUrl,
     previousRole,
+    previousCompany,
+    previousUrl,
     description
 }`;
 
-export const indexQuery = `*[
-  _type == "work"
-  && defined(slug.current)
-]|order(order asc)[0...12]{
-  _id, 
-  title, 
-  slug, 
-  description,
-  image {
-    ...,
-    hotspot,
-    crop
-  },
-  tags,
-}`;
-
 export const aboutQuery = `
-  *[_type == "about"][0]{
+    *[_type == "about"][0]{
     header,
     leftText,
     centerText,
@@ -58,43 +46,61 @@ export const aboutQuery = `
         dates,
         description
     },
-  }
-`;
+}`;
 
-export const slugQuery = `{"work": *[_type == "work" && slug.current == $slug][0]{
+export const indexQuery = `
+    *[_type == "work" && defined(slug.current)]|order(order asc)[0...12]{
+    _id, 
+    title, 
+    slug,
+    image {
+        ...,
+        hotspot,
+        crop
+    },
+    video,
+    alt,
+    tags,
+}`;
+
+export const slugQuery = `
+{"work": *[_type == "work" && slug.current == $slug][0]{
     ...,
     body[] {
-    _type,
-    _type == "imageBlock" => {
-        heading,
-        mediaType,
-        image,
-        caption,
-        dark,
-        video
-    },
-    _type == "textBlock" => {
-        heading,
-        content,
-        dark,
-        header
-    },
-    _type == "gridBlock" => {
-        heading,
-        columns,
-        items[] {
-        type,
-        content,
-        image,
-        subtitle,
-        caption
+        _type,
+        _type == "imageBlock" => {
+            heading,
+            mediaType,
+            image,
+            caption,
+            dark,
+            video,
+            alt
         },
-        dark
+        _type == "textBlock" => {
+            heading,
+            content,
+            dark,
+            header
+        },
+        _type == "gridBlock" => {
+            heading,
+            columns,
+            items[] {
+                type,
+                content,
+                image,
+                video,
+                alt,
+                subtitle,
+                caption
+            },
+            dark
+        }
     }
-    }
-    }, 
-    "allWorks": *[_type == "work" && defined(slug.current)]
-        | order(order asc) {
+}, 
+"allWorks": *[_type == "work" && defined(slug.current)]
+    | order(order asc) {
         _id,
         title,
         "slug": slug.current,

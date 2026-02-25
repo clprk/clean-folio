@@ -131,13 +131,26 @@ const colMap: Record<string, string> = {
       </div>
 
       <!-- hero image -->
-      <div data-reveal class="img-container mt-6 h-[50vh] w-full overflow-hidden">
-        <img
-          src={workImageUrl || ''}
-          alt={work.image?.alt || ''}
-          class="h-full w-full object-cover"
-          style="filter: grayscale(15%) contrast(1.05);"
-        />
+      <!-- <div data-reveal class="img-container mt-6 h-[50vh] w-full overflow-hidden"> -->
+      <div data-reveal class="img-container mt-6 w-full">
+        {
+          work.video ? (
+            <video autoplay loop muted playsinline class="w-full">
+              <source
+                src={work.video || ''}
+                type="video/mp4"
+                style="filter: grayscale(15%) contrast(1.05);"
+              />
+            </video>
+          ) : (
+            <img
+              src={workImageUrl || ''}
+              alt={work.image?.alt || ''}
+              class="h-full w-full object-cover"
+              style="filter: grayscale(15%) contrast(1.05);"
+            />
+          )
+        }
       </div>
     </section>
 
@@ -217,23 +230,6 @@ const colMap: Record<string, string> = {
 
             /* IMAGE BLOCK */
           } else if (block._type === 'imageBlock') {
-            // const imageUrl = block.image ? urlFor(block.image)?.width(1200).url() : null;
-            // return (
-            //   <div data-reveal class="container-custom-small">
-            //     <div class={headerRowClass}>
-            //       {block.heading && <h3 class="md:col-span-12">{block.heading}</h3>}
-            //     </div>
-
-            //     {imageUrl && (
-            //       <figure>
-            //         <div class="img-container">
-            //           <img src={imageUrl} alt={block.image?.alt || ''} class="w-full" />
-            //         </div>
-            //         {block.caption && <figcaption>{block.caption}</figcaption>}
-            //       </figure>
-            //     )}
-            //   </div>
-            // );
             const isVideo = block.mediaType === 'video';
             const imageUrl =
               !isVideo && block.image ? urlFor(block.image)?.width(1200).url() : null;
@@ -288,6 +284,24 @@ const colMap: Record<string, string> = {
                           </div>
                           {item.caption && <figcaption>{item.caption}</figcaption>}
                         </figure>
+                      )}
+
+                      {item.type === 'video' && item.video && (
+                        <div class="img-container">
+                          <video autoplay loop muted playsinline class="w-full">
+                            <source src={item.video} />
+                          </video>
+                          {/* <video autoplay loop muted playsinline class="w-full">
+                            <source
+                              src={item.video || ''}
+                              type="video/mp4"
+                              style="filter: grayscale(15%) contrast(1.05);"
+                            />
+                          </video> */}
+                        </div>
+                      )}
+                      {item.type === 'video' && item.caption && (
+                        <figcaption>{item.caption}</figcaption>
                       )}
 
                       {item.type === 'text' && item.content && (
