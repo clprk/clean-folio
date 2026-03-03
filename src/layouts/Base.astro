@@ -11,10 +11,23 @@ const resume = await sanityClient.fetch(resumeQuery);
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>Ciel Park | Designer + Developer</title>
+    <meta
+      name="description"
+      content="UX/UI portfolio showcasing end-to-end projects bringing ideas to life with design + code."
+    />
+    <!-- Open Graph -->
+    <meta property="og:title" content="Ciel Park | Designer + Developer" />
+    <meta
+      property="og:description"
+      content="UX/UI portfolio showcasing end-to-end projects bringing ideas to life with design + code."
+    />
+    <meta property="og:image" content="https://cielpark.com/preview.png" />
+    <meta property="og:url" content="https://cielpark.com" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <CustomCursor />
   <body class="text-dark md:cursor-none">
@@ -50,7 +63,7 @@ const resume = await sanityClient.fetch(resumeQuery);
       class="text-gray relative z-50 py-2"
       style="opacity:0; visibility:hidden;"
     >
-      <nav class="container-custom flex items-center gap-6 text-[.95em] uppercase">
+      <nav class="container-custom flex items-center gap-4 text-base uppercase">
         <!-- logo -->
         <div class="basis-1/2">
           <a href="../" class="group inline-flex items-center gap-4" id="nav-logo-link">
@@ -98,10 +111,10 @@ const resume = await sanityClient.fetch(resumeQuery);
           <!-- navlinks -->
           <div
             id="mobile-menu"
-            class="absolute top-16 right-4 flex hidden flex-1 flex-col items-end gap-6 lg:static lg:grid lg:grid-cols-2"
+            class="absolute top-16 right-4 flex hidden flex-1 flex-col items-end gap-4 lg:static lg:grid lg:grid-cols-2"
           >
             <div
-              class="flex flex-col items-end gap-6 lg:grid lg:grid-cols-3 lg:justify-items-start"
+              class="flex flex-col items-end gap-4 lg:grid lg:grid-cols-3 lg:justify-items-start"
             >
               <a href="../">Work</a>
               <a href="../about">About</a>
@@ -121,7 +134,7 @@ const resume = await sanityClient.fetch(resumeQuery);
     <footer
       id="site-footer"
       style="opacity:0; visibility:hidden;"
-      class="footer bg-dark border-light relative mt-20 border-t text-white"
+      class="footer bg-dark border-light relative mt-10 border-t text-white"
     >
       <div class="container-custom flex w-full flex-col-reverse py-20 md:flex-row">
         <!-- credits -->
@@ -188,7 +201,7 @@ const resume = await sanityClient.fetch(resumeQuery);
           </li>
         </ul>
         <!-- links -->
-        <div class="flex basis-1/2 flex-col md:flex-row md:gap-6">
+        <div class="flex basis-1/2 flex-col md:flex-row md:gap-4">
           <!-- contact -->
           <ul id="contact" class="mb-10 flex basis-2/3 flex-col gap-2">
             <h3>Contact</h3>
@@ -370,4 +383,6 @@ const resume = await sanityClient.fetch(resumeQuery);
       }
     })();
   </script>
+
+
 </html>

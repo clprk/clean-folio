@@ -47,7 +47,7 @@ body {
 
 /* page header */
 h1 {
-  @apply text-dark text-4xl md:text-5xl;
+  @apply text-dark text-4xl xl:text-5xl;
 }
 /* section headers */
 h2 {
@@ -85,7 +85,7 @@ img {
   @apply relative z-10;
 }
 figcaption {
-  @apply text-gray mt-3 font-mono text-[0.7rem] tracking-widest uppercase;
+  @apply text-gray mt-3 font-mono text-[0.68rem] tracking-widest uppercase;
 }
 ul ul,
 ul ol,
@@ -102,7 +102,10 @@ ol ol {
   @apply mx-auto max-w-[120rem];
 }
 .container-custom-small {
-  @apply mx-auto w-full max-w-[52rem] px-4;
+  @apply mx-auto w-full max-w-[46rem] px-4 xl:max-w-[50rem];
+}
+.container-custom-small h1 {
+  @apply text-4xl;
 }
 .img-container {
   @apply border-light overflow-hidden border;
@@ -112,7 +115,7 @@ ol ol {
   @apply text-sm uppercase;
 }
 .tiny-text {
-  @apply font-mono text-xs tracking-widest uppercase;
+  @apply font-mono text-[0.7rem] tracking-widest uppercase;
 }
 
 /* .nav-link {
