@@ -2,11 +2,12 @@
 import Layout from '../layouts/Base.astro';
 import type { SanityDocument } from '@sanity/client';
 import { sanityClient } from 'sanity:client';
-import { urlFor, homeQuery, indexQuery } from '../lib/sanity';
+import { urlFor, homeQuery, selectedQuery, moreQuery } from '../lib/sanity';
 import PortableTextRenderer from '../components/PortableTextRenderer.astro';
 
 const home = await sanityClient.fetch(homeQuery);
-const works = await sanityClient.fetch<SanityDocument[]>(indexQuery);
+const works = await sanityClient.fetch<SanityDocument[]>(selectedQuery);
+const more = await sanityClient.fetch<SanityDocument[]>(moreQuery);
 ---
 
 <Layout>
@@ -91,6 +92,56 @@ const works = await sanityClient.fetch<SanityDocument[]>(indexQuery);
                   {work.tags && work.tags.length > 0 ? work.tags.join(' ✦ ') : ''}
                 </p>
               </div>
+            </div>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- More Section -->
+  <section class="container-custom py-10">
+    <!-- More -->
+    <h2 class="py-4">Additional Work</h2>
+    <div>
+      <ul class="grid grid-cols-1 gap-4 lg:grid-cols-4">
+        {
+          more.map((work) => (
+            <div data-reveal class="col-gap-8 flex flex-col">
+              <div class="img-container group relative aspect-[5/3] overflow-hidden">
+                <a href={work.link ? work.link : `/works/${work.slug.current}`}>
+                  <img
+                    src={urlFor(work.image).width(1200).url()}
+                    srcset={`
+									${urlFor(work.image).width(400).url()} 400w,
+									${urlFor(work.image).width(800).url()} 800w,
+									${urlFor(work.image).width(1200).url()} 1200w
+									`}
+                    sizes="(max-width: 768px) 400px, (max-width: 1024px) 800px, 1200px"
+                    alt={work.image.alt}
+                    class="h-full w-full object-cover transition duration-400 hover:scale-105"
+                  />
+                  {/* <video
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    class="absolute top-0 left-0 h-full w-full object-cover opacity-0 transition duration-400 group-hover:opacity-100"
+                  >
+                    <source
+                      src={work.video || ''}
+                      type="video/mp4"
+                      style="filter: grayscale(15%) contrast(1.05);"
+                    />
+                  </video> */}
+                </a>
+              </div>
+              {/* <div class="flex flex-col gap-2 pt-4 sm:flex-row sm:justify-between">
+                <h3 class="text-dark text-sm leading-none">{work.title}</h3>
+                <p class="tiny-text text-left sm:text-right">
+                  {work.tags && work.tags.length > 0 ? work.tags.join(' ✦ ') : ''}
+                </p>
+              </div> */}
             </div>
           ))
         }

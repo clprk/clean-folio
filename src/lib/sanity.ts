@@ -48,11 +48,28 @@ export const aboutQuery = `
     },
 }`;
 
-export const indexQuery = `
-    *[_type == "work" && defined(slug.current)]|order(order asc)[0...12]{
+export const selectedQuery = `
+    *[_type == "work" && selected == true && defined(slug.current)]|order(order asc)[0...12]{
+    _id, 
+    title, 
+    url,
+    slug,
+    image {
+        ...,
+        hotspot,
+        crop
+    },
+    video,
+    alt,
+    tags,
+}`;
+
+export const moreQuery = `
+    *[_type == "work" && selected != true && (defined(slug.current) || defined(link))]|order(order asc)[0...12]{
     _id, 
     title, 
     slug,
+    link,
     image {
         ...,
         hotspot,
