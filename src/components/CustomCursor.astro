@@ -16,7 +16,6 @@
 
     const links = document.querySelectorAll('a');
     links.forEach((target) => {
-      target.style.cursor = 'none';
       target.addEventListener('mouseenter', () => {
         if (cursor) {
           cursor.classList.add('scale-200');

@@ -42,7 +42,7 @@ html {
 }
 
 body {
-  @apply text-gray font-sans leading-relaxed;
+  @apply text-gray cursor-none font-sans leading-relaxed;
 }
 
 /* page header */
