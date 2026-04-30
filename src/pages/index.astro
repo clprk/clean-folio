@@ -100,52 +100,72 @@ const more = await sanityClient.fetch<SanityDocument[]>(moreQuery);
   </section>
 
   <!-- More Section -->
-  <!-- <section class="container-custom py-10"> -->
-  <!-- More -->
-  <!-- <h2 class="py-4">Additional Work</h2> -->
-  <!-- <div>
-      <ul class="grid grid-cols-1 gap-4 lg:grid-cols-4">
-        {
-          more.map((work) => (
-            <div data-reveal class="col-gap-8 flex flex-col">
-              <div class="img-container group relative aspect-[5/3] overflow-hidden">
-                <a href={work.link ? work.link : `/works/${work.slug.current}`}>
-                  <img
-                    src={urlFor(work.image).width(1200).url()}
-                    srcset={`
-									${urlFor(work.image).width(400).url()} 400w,
-									${urlFor(work.image).width(800).url()} 800w,
-									${urlFor(work.image).width(1200).url()} 1200w
-									`}
-                    sizes="(max-width: 768px) 400px, (max-width: 1024px) 800px, 1200px"
-                    alt={work.image.alt}
-                    class="h-full w-full object-cover transition duration-400 hover:scale-105"
-                  />
-                  {/* <video
-                    autoplay
-                    loop
-                    muted
-                    playsinline
-                    class="absolute top-0 left-0 h-full w-full object-cover opacity-0 transition duration-400 group-hover:opacity-100"
-                  >
-                    <source
-                      src={work.video || ''}
-                      type="video/mp4"
-                      style="filter: grayscale(15%) contrast(1.05);"
-                    />
-                  </video> */}
-                </a>
-              </div>
-              {/* <div class="flex flex-col gap-2 pt-4 sm:flex-row sm:justify-between">
-                <h3 class="text-dark text-sm leading-none">{work.title}</h3>
-                <p class="tiny-text text-left sm:text-right">
-                  {work.tags && work.tags.length > 0 ? work.tags.join(' ✦ ') : ''}
-                </p>
-              </div> */}
-            </div>
-          ))
-        }
-      </ul>
-    </div> -->
-  <!-- </section> -->
+  <section class="container-custom relative py-10">
+    <h2 class="py-4">Additional Work</h2>
+
+    <!-- single image, lives outside the list -->
+    <div
+      id="hover-image-container"
+      class="border-light pointer-events-none absolute right-4 z-50 aspect-[5/3] h-64 overflow-hidden border opacity-0 transition-opacity duration-300"
+    >
+      <img id="hover-image" src="" alt="" class="h-full w-full object-cover" />
+    </div>
+
+    <ul class="divide-light flex flex-col divide-y">
+      {
+        more.map((work) => (
+          <li
+            data-reveal
+            data-img={urlFor(work.image).width(800).url()}
+            data-alt={work.image.alt}
+            class="work-row"
+          >
+            <a
+              href={work.link ? work.link : `/works/${work.slug.current}`}
+              class="group-hover:!text-accent text-dark flex items-center justify-between py-5 transition-colors duration-200"
+            >
+              <h3 class="text-sm leading-none not-italic">{work.title}</h3>
+              <p class="text-gray tiny-text not-italic">
+                {work.tags && work.tags.length > 0 ? work.tags.join(' ✦ ') : ''}
+              </p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <script>
+    const container = document.getElementById('hover-image-container');
+    const hoverImg = document.getElementById('hover-image') as HTMLImageElement;
+    const section = container?.parentElement;
+
+    // preload
+    document.querySelectorAll<HTMLElement>('.work-row').forEach((row) => {
+      const src = row.dataset.img;
+      if (src) new Image().src = src;
+    });
+
+    document.querySelectorAll<HTMLElement>('.work-row').forEach((row) => {
+      row.addEventListener('mouseenter', () => {
+        if (!container || !hoverImg || !section) return;
+
+        // position relative to the section, centered on the row
+        const rowRect = row.getBoundingClientRect();
+        const sectionRect = section.getBoundingClientRect();
+        const rowMidY = rowRect.top - sectionRect.top + rowRect.height / 2;
+
+        container.style.top = `${rowMidY}px`;
+        container.style.transform = 'translateY(-50%)';
+
+        hoverImg.src = row.dataset.img || '';
+        hoverImg.alt = row.dataset.alt || '';
+        container.classList.replace('opacity-0', 'opacity-100');
+      });
+
+      row.addEventListener('mouseleave', () => {
+        container?.classList.replace('opacity-100', 'opacity-0');
+      });
+    });
+  </script>
 </Layout>
