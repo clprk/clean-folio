@@ -26,7 +26,7 @@ const more = await sanityClient.fetch<SanityDocument[]>(moreQuery);
             <div class="flex-1">
               <p class="tiny-text mb-2">Currently</p>
               <div>
-                <span>{home.currentRole} @ </span>
+                <span>{home.currentRole} @&nbsp;</span>
                 <a href={home.currentUrl} target="_blank"><span>{home.currentCompany}</span></a>
               </div>
             </div>
@@ -34,7 +34,7 @@ const more = await sanityClient.fetch<SanityDocument[]>(moreQuery);
             <div class="flex-1">
               <p class="tiny-text mb-2">Previously</p>
               <div>
-                <span>{home.previousRole} @ </span>
+                <span>{home.previousRole} @&nbsp;</span>
                 <a href={home.previousUrl} target="_blank"><span>{home.previousCompany}</span></a>
               </div>
             </div>

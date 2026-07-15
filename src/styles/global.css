@@ -68,10 +68,10 @@ footer {
 }
 
 a {
-  @apply font-mono italic ease-in-out;
+  @apply cursor-none font-mono italic ease-in-out;
 }
 a:hover {
-  @apply text-accent md:cursor-none;
+  @apply text-accent;
   /* not-italic */
 }
 
