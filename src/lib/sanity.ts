@@ -91,8 +91,13 @@ export const slugQuery = `
             image,
             caption,
             dark,
-            video,
-            alt
+            video{
+                asset->{
+                    playbackId,
+                    status
+                }
+            },
+            alt,
         },
         _type == "textBlock" => {
             heading,
